@@ -1,0 +1,109 @@
+commit 2ecaaf3f1391c4910d85d851c13c565eeb6b175d
+Author: CynyuS <cys36@cornell.edu>
+Date:   Mon Oct 21 16:11:01 2024 -0400
+
+    Implement driver program
+    
+    - create function body for prompt
+    - created functions to turn csv into a priority queue
+
+commit 364fa257a4dfd8571a26bacaefcfce40e01688ef
+Author: CynyuS <cys36@cornell.edu>
+Date:   Mon Oct 21 13:48:59 2024 -0400
+
+    Implemented MakeTreePQ, specifications, and testing functors StringPQTester and PatientPQTester
+    
+    - Forgot to push test file
+    - Created a comprehensive test suite with 100% coverage on all libraries created, including MakeTreePQ
+
+commit d9e8d6f6ad4b9a7be263bac29094e0b552a5b0e1
+Author: CynyuS <cys36@cornell.edu>
+Date:   Mon Oct 21 13:48:01 2024 -0400
+
+    Implemented MakeTreePQ, specifications, and testing functors StringPQTester and PatientPQTester
+    
+    - Replaced all tests with functors StringPQTester and PatientPQTester
+    - Added abstraction function and representation invariant spec to MakeTreePQ
+    - Created a comprehensive test suite with  100% coverage on all libraries created, including MakeTreePQ
+
+commit c9dbc48c1325ba2cd94f1e9ca6a917cae0dfa01f
+Author: CynyuS <cys36@cornell.edu>
+Date:   Mon Oct 21 12:06:56 2024 -0400
+
+    Added representation invariant to functor
+
+commit c5bf8ee91f837fcaacf2725903c39d2654f42ec1
+Author: CynyuS <cys36@cornell.edu>
+Date:   Mon Oct 21 12:00:55 2024 -0400
+
+    Modify priority for full coverage
+
+commit bc501182a7193676ed044ba62c70d71bc7e956b2
+Author: CynyuS <cys36@cornell.edu>
+Date:   Mon Oct 21 11:47:42 2024 -0400
+
+    Implement priority based off of disease
+
+commit c4f3a05e813c7019b88da9eec521cda3d7385a85
+Author: CynyuS <cys36@cornell.edu>
+Date:   Mon Oct 21 10:33:11 2024 -0400
+
+    Implement create constructor, name, diagnosis translater, and patient test cases
+    
+    - Implement function body for create, name, and diagnosis
+    - Removed internal csv_to_list and added it externally to test file
+    - Created an enqueue function to add each element in the order of the csv
+    - Created test cases to ensure FIFO ordering
+
+commit 5b146dded1f85d35ea311e6ca523fa1b54551bc1
+Author: CynyuS <cys36@cornell.edu>
+Date:   Mon Oct 21 02:20:22 2024 -0400
+
+    Implement patient and started implementing tests
+    
+    - Half-finished a worksession
+    - Implemented function body for type, priority
+    - Implemented helpers csv_to_list, list_to_string
+    - resolving type error for tests
+
+commit a51f7588a06789d12e57084d3025a94ba0561c10
+Author: CynyuS <cys36@cornell.edu>
+Date:   Mon Oct 21 01:04:32 2024 -0400
+
+    Add raises exception Empty test case for front and dequeue
+
+commit 80ed13feccae6799fe0e2dc7a410b557b6f0d3fc
+Author: CynyuS <cys36@cornell.edu>
+Date:   Mon Oct 21 01:02:18 2024 -0400
+
+    Implement Functor MakeListPQ and test cases
+    
+    - Implemented function bodies for empty and is_empty
+    - Implemented tests for empty and is_empty by just is_empty
+    - Implemented function body for  enqueue
+    - Implemented none, one, and many element queues as test cases for enqueue
+    - implemented function body for to_list
+    - tested to_list implicitly through enqueue, front, and dequeue functions
+    - implemented function body for front
+    - implemented function body for dequeue
+    - tested front and dequeue for elements through to_list
+
+commit d8ecc01c078702aad1788bcb37d79476b8976bc4
+Author: CynyuS <cys36@cornell.edu>
+Date:   Sun Oct 20 21:19:23 2024 -0400
+
+    Delete build folder
+
+commit 0be12b53d91d472eeb86b98f70b56b71b7609747
+Author: CynyuS <cys36@cornell.edu>
+Date:   Sun Oct 20 21:16:21 2024 -0400
+
+    Added function stubs to all files, added a gitignore
+    
+    - I forgot in the initial commit to add a gitignore
+
+commit 44ef66966da7b6807c38ceff7dc522e3ce4cb1cd
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Sat Oct 19 13:43:13 2024 -0400
+
+    first commit
