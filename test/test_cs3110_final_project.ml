@@ -2,15 +2,15 @@ open OUnit2
 open Cs3110_final_project.Waypoint
 
 (* helps *)
-let wp1 = creat_wp "Home" (0, 0)
-let wp2 = creat_wp "School" (10, 20)
-let wp3 = creat_wp "Park" (-5, 15)
+let wp1 = create_wp "Home" (0, 0)
+let wp2 = create_wp "School" (10, 20)
+let wp3 = create_wp "Park" (-5, 15)
 
 (*module tests*)
 let waypoint_tests =
   [
     ( "test_waypoint_creation" >:: fun _ ->
-      let wp = creat_wp "Test" (1, 2) in
+      let wp = create_wp "Test" (1, 2) in
       assert_equal "Test" wp.name ~msg:"Waypoint name should match";
       assert_equal (1, 2) wp.coords ~msg:"Waypoint coordinates should match" );
     ( "test_empty" >:: fun _ ->
