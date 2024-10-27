@@ -2,15 +2,15 @@ open OUnit2
 open Cs3110_final_project.Waypoint
 
 (* helps *)
-let wp1 = creat_wp "Home" (0, 0)
-let wp2 = creat_wp "School" (10, 20)
-let wp3 = creat_wp "Park" (-5, 15)
+let wp1 = create_wp "Home" (0, 0)
+let wp2 = create_wp "School" (10, 20)
+let wp3 = create_wp "Park" (-5, 15)
 
 (*module tests*)
 let waypoint_tests =
   [
     ( "test_waypoint_creation" >:: fun _ ->
-      let wp = creat_wp "Test" (1, 2) in
+      let wp = create_wp "Test" (1, 2) in
       assert_equal "Test" wp.name ~msg:"Waypoint name should match";
       assert_equal (1, 2) wp.coords ~msg:"Waypoint coordinates should match" );
     ( "test_empty" >:: fun _ ->
@@ -34,16 +34,13 @@ let waypoint_tests =
       let p1 = append wp1 empty in
       let p2 = append wp2 p1 in
       let p3 = append wp3 p2 in
-      let p4 = remove wp2 p3 in
+      let p4 = remove 1 p3 in
       assert_equal 2 (Array.length p4)
         ~msg:"Path length should be 2 after removal";
       assert_equal wp1 p4.(0) ~msg:"First waypoint should match";
       assert_equal wp3 p4.(1) ~msg:"Second waypoint should match" );
     ( "test_remove_empty" >:: fun _ ->
-      assert_raises Empty (fun () -> remove wp1 empty) );
-    ( "test_remove_not_found" >:: fun _ ->
-      let p = append wp1 empty in
-      assert_raises NotFound (fun () -> remove wp2 p) );
+      assert_raises Empty (fun () -> remove 0 empty) );
   ]
 
 (* Main test suite *)

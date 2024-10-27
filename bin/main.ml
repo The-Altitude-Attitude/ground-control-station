@@ -4,7 +4,7 @@ module W = Widget
 module L = Layout
 
 let gcs_map =
-  let map = W.image ~noscale:true "map.png" in
+  let map = W.image "map.png" in
   L.resident map
 
 let () =
