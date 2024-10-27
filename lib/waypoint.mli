@@ -4,7 +4,7 @@ type path = waypoint array
 exception Empty
 exception NotFound
 
-val creat_wp : string -> int * int -> waypoint
+val create_wp : string -> int * int -> waypoint (*creat -> create*)
 val empty : 'a array
 val is_empty : 'a array -> bool
 val append : 'a -> 'a array -> 'a array

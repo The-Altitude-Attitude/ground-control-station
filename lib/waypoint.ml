@@ -4,7 +4,7 @@ type path = waypoint array
 exception Empty
 exception NotFound
 
-let creat_wp name coords = { name; coords }
+let create_wp name coords = { name; coords }
 let empty = [||]
 let is_empty p = p = [||]
 
