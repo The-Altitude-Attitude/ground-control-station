@@ -4,11 +4,15 @@ module W = Widget
 module L = Layout
 
 let wp_list = ref []
-let wp_widget _wp = W.image "reddot.png" ~noscale:true
+let wp_widget _wp = W.image "waypoint_dot.png" ~noscale:true
 
 let wp_layout wp =
   let x, y = wp.coords in
-  L.resident ~x ~y ~w:20 ~h:20 (wp_widget wp)
+  let dot_size = 10 in
+  (* Make dot smaller *)
+  let centered_x = x - (dot_size / 2) in
+  let centered_y = y - (dot_size / 2) in
+  L.resident ~x:centered_x ~y:centered_y ~w:dot_size ~h:dot_size (wp_widget wp)
 
 let wp_map_render map_layout waypoints =
   let waypoint_layouts = List.map wp_layout waypoints in

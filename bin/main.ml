@@ -8,7 +8,11 @@ let plane_icon (x, y) =
     (W.image_from_svg "Plane_icon.svg")
 
 let wp_icon (x, y) =
-  L.resident ~x ~y ~w:20 ~h:20 (W.image "reddot.png" ~noscale:true)
+  let dot_size = 10 in
+  let centered_x = x - (dot_size / 2) in
+  let centered_y = y - (dot_size / 2) in
+  L.resident ~x:centered_x ~y:centered_y ~w:dot_size ~h:dot_size
+    (W.image "waypoint_dot.png" ~noscale:true)
 
 let gcs_map =
   let map = W.image ~noscale:true "map.png" in
