@@ -27,8 +27,9 @@ let wp_update_map () =
   let updated_layout =
     L.superpose (gcs_map :: plane_icon (150, 300) :: waypoint_layouts)
   in
+  let updated_scroll = L.make_clip ~w:900 ~h:600 updated_layout in
   match !map_scroll_ref with
-  | Some scroll -> L.set_rooms scroll [ updated_layout ]
+  | Some scroll -> L.set_rooms scroll [ updated_scroll ]
   | None -> ()
 
 let add_waypoint (x, y) =
