@@ -15,7 +15,7 @@ let wp_icon (x, y) =
     (W.image "waypoint_dot.png" ~noscale:true)
 
 let gcs_map =
-  let map = W.image ~noscale:true "map.png" in
+  let map = W.image "map.png" in
   L.resident map
 
 let waypoints = ref []
@@ -39,6 +39,28 @@ let add_waypoint (x, y) =
   flush stdout;
   wp_update_map ()
 
+let map_menu =
+  let map1 =
+    {
+      Menu.label = Text "Map 1";
+      content = Action (fun () -> print_endline "Map 1");
+    }
+  in
+  let map2 =
+    {
+      Menu.label = Text "Map 2";
+      content = Action (fun () -> print_endline "Map 2");
+    }
+  in
+  let map3 =
+    {
+      Menu.label = Text "Map 3";
+      content = Action (fun () -> print_endline "Map 2");
+    }
+  in
+  let map_options = [ map1; map2; map3 ] in
+  { Menu.label = Text "Map Options"; content = Tower map_options }
+
 let () =
   W.on_click (L.widget gcs_map) ~click:(fun _ ->
       let x, y = Mouse.pos () in
@@ -56,5 +78,6 @@ let () =
   let map_scroll = L.make_clip ~w:900 ~h:600 map_comb in
   map_scroll_ref := Some map_scroll;
   let layout = L.flat [ menu; map_scroll ] in
+  let () = Menu.add_bar ~dst:menu [ map_menu ] in
   let gcs = Bogue.of_layout layout in
   Bogue.run gcs
