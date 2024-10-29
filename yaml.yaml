@@ -1,0 +1,23 @@
+---
+group:
+  - name: Rachel Bethke
+    netid: rkb76
+  - name: 
+    netid: 
+  - name: 
+    netid: 
+
+pm:
+  name: Jerry Wang
+  netid: yhw4
+
+publish: true
+# Pithy title
+title: "The OCaml GCS Flight Sim"
+# OK if this is a Cornell Github link, but public gallery viewers won't be able to see it.
+git-repo: "https://github.com/megisohata/cs3110-final-project"
+
+demo-video-url: "N/A"
+# Write a short, attention-grabbing description of your project.
+desc: >
+  TBC
