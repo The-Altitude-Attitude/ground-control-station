@@ -31,7 +31,7 @@ let insert wp i p =
   else if i = p_len then append wp p
   else
     Array.append (Array.sub p 0 i)
-      (Array.append [| wp |] (Array.sub p i (p_len - i - 1)))
+      (Array.append [| wp |] (Array.sub p i (p_len - i)))
 
 let remove i p =
   let p_len = Array.length p in
