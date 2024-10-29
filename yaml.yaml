@@ -2,10 +2,10 @@
 group:
   - name: Rachel Bethke
     netid: rkb76
-  - name: 
-    netid: 
-  - name: 
-    netid: 
+  - name: Cynthia Shao
+    netid: cys36
+  - name: Meg Isohata
+    netid: msi32
 
 pm:
   name: Jerry Wang
@@ -20,4 +20,10 @@ git-repo: "https://github.com/megisohata/cs3110-final-project"
 demo-video-url: "N/A"
 # Write a short, attention-grabbing description of your project.
 desc: >
-  TBC
+  Explore the future of autonomous flight with a The OCaml Ground Control Station Flight Simulator 
+  (OGCS) built in OCaml! This platform brings mission planning, real-time telemetry, and physics-based 
+  simulation together in a seamless user experience. From precise waypoint plotting on an interactive map 
+  to a 2D visualization of flight path, users can simulate real-world scenarios and test mission 
+  strategies—all with the reliability and elegance of functional programming. 
+  Whether you are a researcher, developer, or autonomous flight enthusiast, this tool offers a unique 
+  look at cutting-edge aerial autonomy in a clean, immersive environment.
