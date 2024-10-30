@@ -15,21 +15,21 @@ let wp_icon (x, y) =
     (W.image "waypoint_dot.png" ~noscale:true)
 
 let gcs_map =
-  let map = W.image "map.png" in
-  L.resident map
+  let map = W.image (*~w:1000 ~h:600*) ~noscale:true "map.png" in
+  L.resident (*~w:1000 ~h:600*) map
 
 let waypoints = ref []
 let map_scroll_ref = ref None
+let map_layout_ref = ref None
 
 (* update map with new waypoints *)
 let wp_update_map () =
   let waypoint_layouts = List.map (fun wp -> wp_icon wp.coords) !waypoints in
-  let updated_layout =
+  let combined_layout =
     L.superpose (gcs_map :: plane_icon (150, 300) :: waypoint_layouts)
   in
-  let updated_scroll = L.make_clip ~w:900 ~h:600 updated_layout in
-  match !map_scroll_ref with
-  | Some scroll -> L.set_rooms scroll [ updated_scroll ]
+  match !map_layout_ref with
+  | Some layout -> L.set_rooms layout [ combined_layout ]
   | None -> ()
 
 let add_waypoint (x, y) =
@@ -74,11 +74,14 @@ let () =
          x y adjusted_x adjusted_y;
          flush stdout; *)
       add_waypoint (adjusted_x, adjusted_y));
+
   let menu = L.flat_of_w [ W.text_display "Menu" ] in
   let map_comb = L.superpose [ gcs_map; plane_icon (150, 300) ] in
-  let map_scroll = L.make_clip ~w:900 ~h:600 map_comb in
+  let map_layout = L.flat ~margins:0 [ map_comb ] in
+  map_layout_ref := Some map_layout;
+  let map_scroll = L.make_clip ~w:900 ~h:600 map_layout in
   map_scroll_ref := Some map_scroll;
   let layout = L.flat [ menu; map_scroll ] in
-  let () = Menu.add_bar ~dst:menu [ map_menu ] in
+  Menu.add_bar ~dst:menu [ map_menu ];
   let gcs = Bogue.of_layout layout in
   Bogue.run gcs
