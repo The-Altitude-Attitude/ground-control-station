@@ -4,7 +4,7 @@ module W = Widget
 module L = Layout
 
 let wp_list = ref []
-let wp_widget _wp = W.image "waypoint_dot.png" ~noscale:true
+let wp_widget _wp = W.image "data/waypoint_dot.png" ~noscale:true
 
 let wp_layout wp =
   let x, y = wp.coords in

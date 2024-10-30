@@ -11,5 +11,5 @@ opam install bogue
 To run the program, enter the below command in your terminal.
 
 ```
- dune exec bin/main.ex
+ dune exec bin/main.exe
 ```

@@ -5,17 +5,17 @@ open Cs3110_final_project.Waypoint
 
 let plane_icon (x, y) =
   L.resident ~x ~y ~w:50 ~h:50 ~draggable:true
-    (W.image_from_svg "Plane_icon.svg")
+    (W.image_from_svg "data/Plane_icon.svg")
 
 let wp_icon (x, y) =
   let dot_size = 10 in
   let centered_x = x - (dot_size / 2) in
   let centered_y = y - (dot_size / 2) in
   L.resident ~x:centered_x ~y:centered_y ~w:dot_size ~h:dot_size
-    (W.image "waypoint_dot.png" ~noscale:true)
+    (W.image "data/waypoint_dot.png")
 
 let gcs_map =
-  let map = W.image (*~w:1000 ~h:600*) ~noscale:true "map.png" in
+  let map = W.image (*~w:1000 ~h:600*) "data/map.png" in
   L.resident (*~w:1000 ~h:600*) map
 
 let waypoints = ref []
