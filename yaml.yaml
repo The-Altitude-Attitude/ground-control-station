@@ -17,7 +17,7 @@ title: "The OCaml GCS Flight Sim"
 # OK if this is a Cornell Github link, but public gallery viewers won't be able to see it.
 git-repo: "https://github.com/megisohata/cs3110-final-project"
 
-demo-video-url: "N/A"
+demo-video-url: "https://www.youtube.com/watch?v=5R1LrMLJQeI"
 # Write a short, attention-grabbing description of your project.
 desc: >
   Explore the future of autonomous flight with a The OCaml Ground Control Station Flight Simulator 
