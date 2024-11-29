@@ -7,6 +7,8 @@ let map_layout_ref = ref None
 let map_scroll_ref = ref None
 let map_file = ref "data/cornell.png"
 let map = ref (L.resident (W.image (*~w:1000 ~h:600*) !map_file))
+let map_options = [| "Cornell University"; "Ovid Airport"; "Mojave Desert" |]
+let map_files = [| "data/cornell.png"; "data/ovid.png"; "data/mojave.png" |]
 
 let plane_icon (x, y) =
   L.resident ~x ~y ~w:50 ~h:50 ~draggable:true
@@ -60,37 +62,21 @@ let update_map file =
   | None -> ()
 
 let map_menu =
-  let map1 =
-    {
-      Menu.label = Text "Cornell University";
-      content = Action (fun () -> update_map "data/cornell.png");
-    }
+  let map_select =
+    Select.create
+      ~action:(fun index -> update_map map_files.(index))
+      map_options 0
   in
-  let map2 =
-    {
-      Menu.label = Text "Ovid Airport";
-      content = Action (fun () -> update_map "data/ovid.png");
-    }
-  in
-  let map3 =
-    {
-      Menu.label = Text "Mojave Desert";
-      content = Action (fun () -> update_map "data/mojave.png");
-    }
-  in
-  let map_options = [ map1; map2; map3 ] in
-  { Menu.label = Text "Change Map"; content = Tower map_options }
+  let label = W.label "Select Map:" in
+  L.flat ~margins:10 [ L.resident label; map_select ]
 
 let () =
   update_map !map_file;
-
-  let menu = L.flat_of_w [ W.text_display "Menu" ] in
   let map_comb = L.superpose [ !map; plane_icon (150, 300) ] in
   let map_layout = L.flat ~margins:0 [ map_comb ] in
   map_layout_ref := Some map_layout;
   let map_scroll = L.make_clip ~w:900 ~h:600 map_layout in
   map_scroll_ref := Some map_scroll;
-  let layout = L.flat [ menu; map_scroll ] in
-  Menu.add_bar ~dst:menu [ map_menu ];
-  let gcs = Bogue.of_layout layout in
+  let main_layout = L.flat ~sep:20 [ map_menu; map_scroll ] in
+  let gcs = Bogue.of_layout main_layout in
   Bogue.run gcs
