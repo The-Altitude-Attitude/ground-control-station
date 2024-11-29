@@ -27,6 +27,7 @@ let wp_icon (x, y) =
   create_icon "data/waypoint_dot.png" ~x:centered_x ~y:centered_y ~w:size
     ~h:size
 
+(* map updates *)
 let reset_waypoints () = waypoints := empty
 
 let add_waypoint (x, y) =
@@ -36,7 +37,7 @@ let add_waypoint (x, y) =
 
 let update_map_layout () =
   let waypoint_icons =
-    Array.to_list (Array.map (fun wp -> wp_icon wp.coords) !waypoints)
+    Array.to_list (Array.map (fun wp -> wp_icon (coords wp)) !waypoints)
   in
   let combined_layout =
     L.superpose (!map :: plane_icon (150, 300) :: waypoint_icons)
@@ -64,12 +65,12 @@ let update_wp_table () =
              width = Some width;
            }
        in
-       let col_name = create_column "Waypoint" 80 (fun wp -> wp.name) in
+       let col_name = create_column "Waypoint" 80 (fun wp -> name wp) in
        let col_x =
-         create_column "x" 30 (fun wp -> string_of_int (fst wp.coords))
+         create_column "x" 30 (fun wp -> string_of_int (fst (coords wp)))
        in
        let col_y =
-         create_column "y" 30 (fun wp -> string_of_int (snd wp.coords))
+         create_column "y" 30 (fun wp -> string_of_int (snd (coords wp)))
        in
        fst (Table.create ~h:500 [ col_name; col_x; col_y ]));
 
