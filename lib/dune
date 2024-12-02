@@ -1,4 +1,6 @@
 (library
  (name cs3110_final_project)
  (modules waypoint waypoint_gui)
- (libraries bogue))
+ (libraries bogue)
+ (instrumentation
+  (backend bisect_ppx)))

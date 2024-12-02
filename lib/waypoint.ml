@@ -6,8 +6,11 @@ exception NotFound
 exception OutOfBounds
 
 let create_wp name coords = { name; coords }
+let name wp = wp.name
+let coords wp = wp.coords
 let empty = [||]
 let is_empty p = p = [||]
+let length p = Array.length p
 let contains wp p = Array.mem wp p
 let get i p = Array.get p i
 

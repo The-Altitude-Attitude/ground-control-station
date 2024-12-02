@@ -16,11 +16,20 @@ exception OutOfBounds
 val create_wp : string -> int * int -> waypoint
 (** [create_wp name coords] is a waypoint with name [name] and coords [coords]. *)
 
+val name : waypoint -> string
+(** [name wp] is the name of waypoint [wp]. *)
+
+val coords : waypoint -> int * int
+(** [coords wp] is the coordinates of waypoint [wp]. *)
+
 val empty : path
 (** [empty] is an empty path. *)
 
 val is_empty : path -> bool
 (** [is_empty p] is whether or not path [p] is an empty path. *)
+
+val length : path -> int
+(** [length p] is the length of path [p]. *)
 
 val contains : waypoint -> path -> bool
 (** [contains wp p] is whether or not waypoint [wp] is in path [p]. *)
