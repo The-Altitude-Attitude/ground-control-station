@@ -19,16 +19,16 @@ let map_options = [| "Cornell University"; "Ovid Airport"; "Mojave Desert" |]
 let map_files = [| "data/cornell.png"; "data/ovid.png"; "data/mojave.png" |]
 
 (* icons *)
-let create_icon file ~x ~y ~w ~h =
-  L.resident ~x ~y ~w ~h ~draggable:false (W.image file)
+let create_icon file ~x ~y ~w ~h draggable =
+  L.resident ~x ~y ~w ~h ~draggable (W.image file)
 
-let plane_icon (x, y) = create_icon "data/Plane_icon.svg" ~x ~y ~w:50 ~h:50
+let plane_icon (x, y) = create_icon "data/Plane_icon.svg" ~x ~y ~w:50 ~h:50 true
 
 let wp_icon (x, y) =
   let size = 10 in
   let centered_x, centered_y = (x - (size / 2), y - (size / 2)) in
   create_icon "data/waypoint_dot.png" ~x:centered_x ~y:centered_y ~w:size
-    ~h:size
+    ~h:size true
 
 (* map updates *)
 let reset_waypoints () = waypoints := empty
