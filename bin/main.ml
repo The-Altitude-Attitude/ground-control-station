@@ -152,6 +152,8 @@ let animate_plane_icon () =
       update_map_layout ());
 
     let wp_coords = Array.of_list (List.map coords (path_to_list !waypoints)) in
+
+    (* Offsets for plane icon centering *)
     let plane_width = 50 in
     let plane_height = 50 in
     let half_w = plane_width / 2 in
@@ -167,12 +169,19 @@ let animate_plane_icon () =
         let target_x_adj = target_x - half_w in
         let target_y_adj = target_y - half_h in
 
-        (* A small ref counter to track how many animations have ended *)
-        let finished_count = ref 0 in
+        (* Compute angle to the next waypoint *)
+        let dx = float_of_int (target_x - current_x) in
+        let dy = float_of_int (target_y - current_y) in
+        let angle_radians = atan2 dy dx in
+        let angle_degrees = (angle_radians *. 180.0 /. Float.pi) +. 155. in
 
+        (* Rotate the plane instantly to face the next waypoint *)
+        L.rotate ~duration:3 ~angle:angle_degrees !plane_ref;
+
+        (* Synchronization for both animations finishing *)
+        let finished_count = ref 0 in
         let on_end () =
           incr finished_count;
-          (* Only proceed once both x and y animations have ended *)
           if !finished_count = 2 then (
             Printf.printf "Plane reached waypoint %d at (%d, %d)!\n" (idx + 1)
               target_x target_y;
