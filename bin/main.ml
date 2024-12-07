@@ -139,6 +139,30 @@ let clear_path_button =
       update_map_layout ());
   L.resident button
 
+(*
+   This callback function takes the list of waypoint coordinates and the current
+   index, and returns a callback (a function of type unit -> unit) that, when called,
+   checks if the plane has reached the final waypoint.
+
+   - wp_coords: Array of waypoint coordinates
+   - idx: The current waypoint index
+   - animate_path: A function that continues the animation to the next segment
+*)
+
+(* let check_final_destination (wp_coords : (int * int) array) (idx : int)
+      (animate_path : int -> unit) : unit -> unit =
+   (* Return the callback function *)
+   fun () ->
+    let last_index = Array.length wp_coords - 1 in
+    if idx + 1 = last_index then (
+      (* If the next waypoint is the final one, just print a message. *)
+      let final_x, final_y = wp_coords.(last_index) in
+      Printf.printf "Plane has reached the final waypoint at (%d, %d)!\n" final_x
+        final_y;
+      flush stdout)
+    else (* Otherwise, proceed to the next waypoint *)
+      animate_path (idx + 1) *)
+
 let animate_plane_icon () =
   if length !waypoints = 0 then (
     Printf.printf "No waypoints to animate through!\n";
@@ -152,42 +176,50 @@ let animate_plane_icon () =
       update_map_layout ());
 
     let wp_coords = Array.of_list (List.map coords (path_to_list !waypoints)) in
-
-    (* Offset to center the plane *)
     let plane_width = 50 in
     let plane_height = 50 in
     let half_w = plane_width / 2 in
     let half_h = plane_height / 2 in
 
-    (* Recursive function to animate through waypoints *)
     let rec animate_path idx =
       if idx < Array.length wp_coords - 1 then (
         let current_x, current_y = wp_coords.(idx) in
         let target_x, target_y = wp_coords.(idx + 1) in
 
-        (* Adjust for center alignment *)
         let current_x_adj = current_x - half_w in
         let current_y_adj = current_y - half_h in
         let target_x_adj = target_x - half_w in
         let target_y_adj = target_y - half_h in
 
-        (* Create animations *)
+        (* A small ref counter to track how many animations have ended *)
+        let finished_count = ref 0 in
+
+        let on_end () =
+          incr finished_count;
+          (* Only proceed once both x and y animations have ended *)
+          if !finished_count = 2 then (
+            Printf.printf "Plane reached waypoint %d at (%d, %d)!\n" (idx + 1)
+              target_x target_y;
+            flush stdout;
+            animate_path (idx + 1))
+        in
+
         let x_anim =
-          Avar.fromto_unif ~duration:1000 current_x_adj target_x_adj
+          Avar.fromto_unif ~duration:1000 ~ending:on_end current_x_adj
+            target_x_adj
         in
         let y_anim =
-          Avar.fromto_unif ~duration:1000 current_y_adj target_y_adj
+          Avar.fromto_unif ~duration:1000 ~ending:on_end current_y_adj
+            target_y_adj
         in
 
-        (* Apply animations to the plane icon *)
         L.animate_x !plane_ref x_anim;
-        L.animate_y !plane_ref y_anim;
-
-        (* Proceed to the next waypoint *)
-        animate_path (idx + 1))
+        L.animate_y !plane_ref y_anim)
+      else (
+        Printf.printf "Animation complete!\n";
+        flush stdout)
     in
 
-    (* Start animation sequence *)
     animate_path 0;
     Printf.printf "Animation started!\n";
     flush stdout)
