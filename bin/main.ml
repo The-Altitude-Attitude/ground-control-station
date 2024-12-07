@@ -139,30 +139,6 @@ let clear_path_button =
       update_map_layout ());
   L.resident button
 
-(*
-   This callback function takes the list of waypoint coordinates and the current
-   index, and returns a callback (a function of type unit -> unit) that, when called,
-   checks if the plane has reached the final waypoint.
-
-   - wp_coords: Array of waypoint coordinates
-   - idx: The current waypoint index
-   - animate_path: A function that continues the animation to the next segment
-*)
-
-(* let check_final_destination (wp_coords : (int * int) array) (idx : int)
-      (animate_path : int -> unit) : unit -> unit =
-   (* Return the callback function *)
-   fun () ->
-    let last_index = Array.length wp_coords - 1 in
-    if idx + 1 = last_index then (
-      (* If the next waypoint is the final one, just print a message. *)
-      let final_x, final_y = wp_coords.(last_index) in
-      Printf.printf "Plane has reached the final waypoint at (%d, %d)!\n" final_x
-        final_y;
-      flush stdout)
-    else (* Otherwise, proceed to the next waypoint *)
-      animate_path (idx + 1) *)
-
 let animate_plane_icon () =
   if length !waypoints = 0 then (
     Printf.printf "No waypoints to animate through!\n";

@@ -35,6 +35,10 @@ let make_insert_test expected wp i p =
 let make_remove_test expected i p =
   "unit test for [remove]" >:: fun _ -> assert_equal expected (remove i p)
 
+let make_path_to_list_test expected p =
+  "unit test for [path_to_list]" >:: fun _ ->
+  assert_equal expected (path_to_list p)
+
 (*module tests*)
 let waypoint_tests =
   [
@@ -97,6 +101,9 @@ let waypoint_tests =
       assert_equal wp3 p4.(1) ~msg:"Second waypoint should match" );
     ( "test_remove_empty" >:: fun _ ->
       assert_raises Empty (fun () -> remove 0 empty) );
+    make_path_to_list_test [] empty;
+    make_path_to_list_test [ wp1 ] [| wp1 |];
+    make_path_to_list_test [ wp1; wp2; wp3 ] [| wp1; wp2; wp3 |];
   ]
 
 (* Main test suite *)
