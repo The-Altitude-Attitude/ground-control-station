@@ -48,3 +48,6 @@ val insert : waypoint -> int -> path -> path
 
 val remove : int -> path -> path
 (** [remove i p] is path [p] with the waypoint at index [i] removed. *)
+
+val path_to_list : path -> waypoint list
+(** [path_to_list p] returns a list of waypoints*)

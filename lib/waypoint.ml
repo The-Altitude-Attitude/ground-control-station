@@ -43,3 +43,5 @@ let remove i p =
   else if i = 0 then Array.sub p 1 (p_len - 1)
   else if i = p_len - 1 then Array.sub p 0 (p_len - 1)
   else Array.append (Array.sub p 0 i) (Array.sub p (i + 1) (p_len - i - 1))
+
+let path_to_list p = Array.to_list p

@@ -23,6 +23,8 @@ let create_icon file ~x ~y ~w ~h draggable =
   L.resident ~x ~y ~w ~h ~draggable (W.image file)
 
 let plane_icon (x, y) = create_icon "data/Plane_icon.svg" ~x ~y ~w:50 ~h:50 true
+let plane_initialized = ref false
+let plane_ref = ref (plane_icon (150, 300))
 
 let wp_icon (x, y) =
   let size = 10 in
@@ -48,13 +50,18 @@ let update_map_layout () =
       (Array.map
          (fun wp ->
            let x, y = coords wp in
-           (* Adjust the waypoint's position based on the map's offset *)
            wp_icon (x + !offset_x, y))
          !waypoints)
   in
-  let combined_layout =
-    L.superpose (!map :: plane_icon (150 + !offset_x, 300) :: waypoint_icons)
+
+  let plane_icon_dynamic =
+    if !plane_initialized then !plane_ref else plane_icon (150 + !offset_x, 300)
   in
+
+  let combined_layout =
+    L.superpose (!map :: plane_icon_dynamic :: waypoint_icons)
+  in
+
   match !map_layout_ref with
   | Some layout -> L.set_rooms layout [ combined_layout ]
   | None -> ()
@@ -132,6 +139,64 @@ let clear_path_button =
       update_map_layout ());
   L.resident button
 
+let animate_plane_icon () =
+  if length !waypoints = 0 then (
+    Printf.printf "No waypoints to animate through!\n";
+    flush stdout)
+  else (
+    if not !plane_initialized then (
+      plane_ref :=
+        plane_icon
+          (fst (coords (get 0 !waypoints)), snd (coords (get 0 !waypoints)));
+      plane_initialized := true;
+      update_map_layout ());
+
+    let wp_coords = Array.of_list (List.map coords (path_to_list !waypoints)) in
+
+    (* Offset to center the plane *)
+    let plane_width = 50 in
+    let plane_height = 50 in
+    let half_w = plane_width / 2 in
+    let half_h = plane_height / 2 in
+
+    (* Recursive function to animate through waypoints *)
+    let rec animate_path idx =
+      if idx < Array.length wp_coords - 1 then (
+        let current_x, current_y = wp_coords.(idx) in
+        let target_x, target_y = wp_coords.(idx + 1) in
+
+        (* Adjust for center alignment *)
+        let current_x_adj = current_x - half_w in
+        let current_y_adj = current_y - half_h in
+        let target_x_adj = target_x - half_w in
+        let target_y_adj = target_y - half_h in
+
+        (* Create animations *)
+        let x_anim =
+          Avar.fromto_unif ~duration:1000 current_x_adj target_x_adj
+        in
+        let y_anim =
+          Avar.fromto_unif ~duration:1000 current_y_adj target_y_adj
+        in
+
+        (* Apply animations to the plane icon *)
+        L.animate_x !plane_ref x_anim;
+        L.animate_y !plane_ref y_anim;
+
+        (* Proceed to the next waypoint *)
+        animate_path (idx + 1))
+    in
+
+    (* Start animation sequence *)
+    animate_path 0;
+    Printf.printf "Animation started!\n";
+    flush stdout)
+
+let start_simulation_button =
+  let button = W.button "Start Simulation" in
+  W.on_click button ~click:(fun _ -> animate_plane_icon ());
+  L.resident button
+
 (** app setup *)
 let init_app () =
   update_map !map_file;
@@ -162,7 +227,10 @@ let init_app () =
 
   let map_with_slider = L.tower [ map_scroll; slider_layout ] in
 
-  let sidebar = L.tower [ map_menu; clear_path_button; wp_table_super ] in
+  let sidebar =
+    L.tower
+      [ map_menu; clear_path_button; start_simulation_button; wp_table_super ]
+  in
   let main_layout = L.flat ~sep:20 [ sidebar; map_with_slider ] in
   Bogue.of_layout main_layout
 
