@@ -10,6 +10,7 @@ let map_file = ref "data/cornell.png" (* default to cornell *)
 let map = ref (L.resident (W.image !map_file))
 let waypoints = ref empty
 let wp_table = ref (L.resident (W.label "No Waypoints"))
+let speed = ref 10
 
 (* horizontal scroll offset reference *)
 let offset_x = ref 0
@@ -122,6 +123,22 @@ let update_map file =
   update_map_layout ()
 
 (* ui *)
+let speed_slider =
+  let slider_label = W.label (string_of_int !speed) in
+  let slider =
+    W.slider_with_action ~value:!speed ~length:150 ~step:1
+      ~kind:Slider.Horizontal
+      ~action:(fun value ->
+        speed := 20 - (value - 1);
+        W.set_text slider_label (string_of_int (22 - !speed)))
+      19
+  in
+  L.tower
+    [
+      L.resident (W.label "Set Speed:");
+      L.flat ~align:Draw.Center [ L.resident slider; L.resident slider_label ];
+    ]
+
 let map_menu =
   let map_select =
     Select.create
@@ -190,12 +207,16 @@ let animate_plane_icon () =
         in
 
         let x_anim =
-          Avar.fromto_unif ~duration:1000 ~ending:on_end current_x_adj
-            target_x_adj
+          Avar.fromto_unif
+            ~duration:
+              (distance (current_x, current_y) (target_x, target_y) * !speed)
+            ~ending:on_end current_x_adj target_x_adj
         in
         let y_anim =
-          Avar.fromto_unif ~duration:1000 ~ending:on_end current_y_adj
-            target_y_adj
+          Avar.fromto_unif
+            ~duration:
+              (distance (current_x, current_y) (target_x, target_y) * !speed)
+            ~ending:on_end current_y_adj target_y_adj
         in
 
         L.animate_x !plane_ref x_anim;
@@ -246,7 +267,13 @@ let init_app () =
 
   let sidebar =
     L.tower
-      [ map_menu; clear_path_button; start_simulation_button; wp_table_super ]
+      [
+        map_menu;
+        clear_path_button;
+        speed_slider;
+        start_simulation_button;
+        wp_table_super;
+      ]
   in
   let main_layout = L.flat ~sep:20 [ sidebar; map_with_slider ] in
   Bogue.of_layout main_layout

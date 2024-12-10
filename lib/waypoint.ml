@@ -45,3 +45,7 @@ let remove i p =
   else Array.append (Array.sub p 0 i) (Array.sub p (i + 1) (p_len - i - 1))
 
 let path_to_list p = Array.to_list p
+
+let distance (x0, y0) (x1, y1) =
+  int_of_float
+    (sqrt (float_of_int (((x1 - x0) * (x1 - x0)) + ((y1 - y0) * (y1 - y0)))))

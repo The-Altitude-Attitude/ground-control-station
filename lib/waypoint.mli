@@ -50,4 +50,7 @@ val remove : int -> path -> path
 (** [remove i p] is path [p] with the waypoint at index [i] removed. *)
 
 val path_to_list : path -> waypoint list
-(** [path_to_list p] returns a list of waypoints*)
+(** [path_to_list p] is a list of waypoints. *)
+
+val distance : int * int -> int * int -> int
+(** [distance (x0, y0) (x1, y1)] is the distance between [(x0, y0)] and [(x1, y1)]. *)
