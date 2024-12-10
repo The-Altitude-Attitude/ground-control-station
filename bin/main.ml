@@ -35,6 +35,10 @@ let wp_icon (x, y) =
 
 (* map updates *)
 let reset_waypoints () = waypoints := empty
+let update_wp_status idx new_status = set_status (get idx !waypoints) new_status
+
+let reset_waypoint_statuses () =
+  Array.iter (fun wp -> set_status wp ToDo) !waypoints
 
 let add_waypoint (x, y) =
   let wp = create_wp (Printf.sprintf "WP%d" (length !waypoints + 1)) (x, y) in
@@ -84,20 +88,34 @@ let update_wp_table () =
              rows =
                (fun i ->
                  match get i !waypoints with
-                 | wp -> L.resident (W.label (getter wp))
+                 | wp -> L.resident (getter wp)
                  | exception _ -> L.resident (W.label "Invalid Waypoint"));
              compare = Some (fun i j -> compare i j);
              width = Some width;
            }
        in
-       let col_name = create_column "Waypoint" 80 (fun wp -> name wp) in
+       let col_name =
+         create_column "Waypoint" 80 (fun wp -> W.label (name wp))
+       in
        let col_x =
-         create_column "x" 30 (fun wp -> string_of_int (fst (coords wp)))
+         create_column "x" 30 (fun wp ->
+             W.label (string_of_int (fst (coords wp))))
        in
        let col_y =
-         create_column "y" 30 (fun wp -> string_of_int (snd (coords wp)))
+         create_column "y" 30 (fun wp ->
+             W.label (string_of_int (snd (coords wp))))
        in
-       fst (Table.create ~h:500 [ col_name; col_x; col_y ]));
+       let col_status =
+         create_column "Status" 50 (fun wp ->
+             let status_icon =
+               match status wp with
+               | ToDo -> W.icon ~size:20 ~fg:(220, 20, 60, 0) "times-circle"
+               | Pending -> W.icon ~size:20 ~fg:(255, 215, 0, 0) "repeat"
+               | Done -> W.icon ~size:20 ~fg:(34, 139, 34, 0) "check-circle"
+             in
+             status_icon)
+       in
+       fst (Table.create ~h:500 [ col_name; col_x; col_y; col_status ]));
 
   match !wp_table_ref with
   | Some layout -> L.set_rooms layout [ L.superpose [ !wp_table ] ]
@@ -136,7 +154,11 @@ let speed_slider =
   L.tower
     [
       L.resident (W.label "Set Speed:");
-      L.flat ~align:Draw.Center [ L.resident slider; L.resident slider_label ];
+      L.flat ~align:Draw.Center
+        [
+          L.resident ~background:(L.color_bg (211, 211, 211, 100)) slider;
+          L.resident slider_label;
+        ];
     ]
 
 let map_menu =
@@ -161,6 +183,7 @@ let animate_plane_icon () =
     Printf.printf "No waypoints to animate through!\n";
     flush stdout)
   else (
+    reset_waypoint_statuses ();
     if not !plane_initialized then (
       plane_ref :=
         plane_icon
@@ -177,51 +200,68 @@ let animate_plane_icon () =
     let half_h = plane_height / 2 in
 
     let rec animate_path idx =
+      if idx = 0 then (
+        update_wp_status idx Done;
+        update_wp_table ());
       if idx < Array.length wp_coords - 1 then (
-        let current_x, current_y = wp_coords.(idx) in
-        let target_x, target_y = wp_coords.(idx + 1) in
+        if idx > 0 then update_wp_status idx Done;
 
+        update_wp_status (idx + 1) Pending;
+        update_wp_table ();
+
+        (* Get the current and next waypoint coordinates *)
+        let current_x, current_y = wp_coords.(idx) in
+        let next_x, next_y = wp_coords.(idx + 1) in
+
+        (* Adjust positions for plane icon centering *)
         let current_x_adj = current_x - half_w in
         let current_y_adj = current_y - half_h in
-        let target_x_adj = target_x - half_w in
-        let target_y_adj = target_y - half_h in
+        let next_x_adj = next_x - half_w in
+        let next_y_adj = next_y - half_h in
 
         (* Compute angle to the next waypoint *)
-        let dx = float_of_int (target_x - current_x) in
-        let dy = float_of_int (target_y - current_y) in
+        let dx = float_of_int (next_x - current_x) in
+        let dy = float_of_int (next_y - current_y) in
         let angle_radians = atan2 dy dx in
-        let angle_degrees = (angle_radians *. 180.0 /. Float.pi) +. 155. in
+        let angle_degrees = (angle_radians *. 180.0 /. Float.pi) +. 155.0 in
 
         (* Rotate the plane instantly to face the next waypoint *)
         L.rotate ~duration:3 ~angle:angle_degrees !plane_ref;
 
-        (* Synchronization for both animations finishing *)
+        (* Synchronization for animations finishing *)
         let finished_count = ref 0 in
         let on_end () =
           incr finished_count;
           if !finished_count = 2 then (
             Printf.printf "Plane reached waypoint %d at (%d, %d)!\n" (idx + 1)
-              target_x target_y;
+              next_x next_y;
             flush stdout;
+
+            (* Once reaching the next waypoint, mark it as Done *)
+            update_wp_status (idx + 1) Done;
+            update_wp_table ();
+
+            (* Animate toward the next waypoint *)
             animate_path (idx + 1))
         in
 
+        (* Animate the plane movement *)
         let x_anim =
           Avar.fromto_unif
-            ~duration:
-              (distance (current_x, current_y) (target_x, target_y) * !speed)
-            ~ending:on_end current_x_adj target_x_adj
+            ~duration:(distance (current_x, current_y) (next_x, next_y) * !speed)
+            ~ending:on_end current_x_adj next_x_adj
         in
         let y_anim =
           Avar.fromto_unif
-            ~duration:
-              (distance (current_x, current_y) (target_x, target_y) * !speed)
-            ~ending:on_end current_y_adj target_y_adj
+            ~duration:(distance (current_x, current_y) (next_x, next_y) * !speed)
+            ~ending:on_end current_y_adj next_y_adj
         in
 
         L.animate_x !plane_ref x_anim;
         L.animate_y !plane_ref y_anim)
       else (
+        update_wp_status idx Done;
+        update_wp_table ();
         Printf.printf "Animation complete!\n";
         flush stdout)
     in
@@ -269,9 +309,8 @@ let init_app () =
     L.tower
       [
         map_menu;
-        clear_path_button;
         speed_slider;
-        start_simulation_button;
+        L.flat [ clear_path_button; start_simulation_button ];
         wp_table_super;
       ]
   in

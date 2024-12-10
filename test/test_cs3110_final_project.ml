@@ -42,7 +42,9 @@ let make_path_to_list_test expected p =
 (*module tests*)
 let waypoint_tests =
   [
-    make_create_wp_test { name = "Test"; coords = (1, 2) } "Test" (1, 2);
+    make_create_wp_test
+      { name = "Test"; coords = (1, 2); status = ToDo }
+      "Test" (1, 2);
     make_empty_test;
     make_is_empty_test true empty;
     make_is_empty_test false [| wp1 |];

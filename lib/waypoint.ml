@@ -1,13 +1,16 @@
-type waypoint = { name : string; coords : int * int }
+type status = ToDo | Pending | Done
+type waypoint = { name : string; coords : int * int; mutable status : status }
 type path = waypoint array
 
 exception Empty
 exception NotFound
 exception OutOfBounds
 
-let create_wp name coords = { name; coords }
+let create_wp name coords = { name; coords; status = ToDo }
 let name wp = wp.name
 let coords wp = wp.coords
+let status wp = wp.status
+let set_status wp status = wp.status <- status
 let empty = [||]
 let is_empty p = p = [||]
 let length p = Array.length p

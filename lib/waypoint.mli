@@ -1,4 +1,6 @@
-type waypoint = { name : string; coords : int * int }
+type status = ToDo | Pending | Done
+
+type waypoint = { name : string; coords : int * int; mutable status : status }
 (** The type of a waypoint whose name is type [string] and coords is type [int * int]. *)
 
 type path = waypoint array
@@ -21,6 +23,9 @@ val name : waypoint -> string
 
 val coords : waypoint -> int * int
 (** [coords wp] is the coordinates of waypoint [wp]. *)
+
+val status : waypoint -> status
+val set_status : waypoint -> status -> unit
 
 val empty : path
 (** [empty] is an empty path. *)
