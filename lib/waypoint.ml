@@ -4,8 +4,8 @@ type status =
   | Done
 
 type waypoint = {
-  name : string;
-  coords : int * int;
+  mutable name : string;
+  mutable coords : int * int;
   mutable status : status;
 }
 
@@ -19,11 +19,14 @@ let create_wp name coords = { name; coords; status = ToDo }
 let name wp = wp.name
 let coords wp = wp.coords
 let status wp = wp.status
+let set_name wp name = wp.name <- name
+let set_coords wp coords = wp.coords <- coords
 let set_status wp status = wp.status <- status
 let empty = [||]
 let is_empty p = p = [||]
 let length p = Array.length p
 let contains wp p = Array.mem wp p
+let contains_name name p = Array.exists (fun wp -> wp.name = name) p
 let get i p = Array.get p i
 
 let get_index wp p =

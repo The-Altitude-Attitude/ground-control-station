@@ -5,8 +5,8 @@ type status =
   | Done
 
 type waypoint = {
-  name : string;
-  coords : int * int;
+  mutable name : string;
+  mutable coords : int * int;
   mutable status : status;
 }
 (** The type of a waypoint whose name is type [string], coords is type
@@ -38,6 +38,12 @@ val coords : waypoint -> int * int
 val status : waypoint -> status
 (** [status wp] is the status of waypoint [wp]. *)
 
+val set_name : waypoint -> string -> unit
+(** [set_name wp name] sets the name of waypoint [wp] to [name]. *)
+
+val set_coords : waypoint -> int * int -> unit
+(** [set_coords wp coords] sets the coords of waypoint [wp] to [coords]. *)
+
 val set_status : waypoint -> status -> unit
 (** [set_status wp status] sets the status of waypoint [wp] to status [status]. *)
 
@@ -52,6 +58,10 @@ val length : path -> int
 
 val contains : waypoint -> path -> bool
 (** [contains wp p] is whether or not waypoint [wp] is in path [p]. *)
+
+val contains_name : string -> path -> bool
+(** [contains_name name p] is whether or not a waypoint with name [name] is in
+    path [path]. *)
 
 val get : int -> path -> waypoint
 (** [get i p] is the waypoint at index [i] in path [p]. *)

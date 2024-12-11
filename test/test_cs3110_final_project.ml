@@ -61,6 +61,16 @@ let make_status_test expected wp =
   "unit test for [status]" >:: fun _ ->
   assert_equal expected (status wp) ~printer:status_printer
 
+let make_set_name_test wp n =
+  "unit test for [set_name]" >:: fun _ ->
+  set_name wp n;
+  assert_equal n (name wp) ~printer:string_printer
+
+let make_set_coords_test wp c =
+  "unit test for [set_coords]" >:: fun _ ->
+  set_coords wp c;
+  assert_equal c (coords wp) ~printer:coords_printer
+
 let make_set_status_test s wp =
   "unit test for [set_status]" >:: fun _ ->
   set_status wp s;
@@ -81,6 +91,10 @@ let make_length_test expected p =
 let make_contains_test expected wp p =
   "unit test for [contains]" >:: fun _ ->
   assert_equal expected (contains wp p) ~printer:string_of_bool
+
+let make_contains_name_test expected name p =
+  "unit test for [contains_name]" >:: fun _ ->
+  assert_equal expected (contains_name name p) ~printer:string_of_bool
 
 let make_get_test expected i p =
   "unit test for [get]" >:: fun _ ->
@@ -155,6 +169,26 @@ let status_tests =
     make_status_test ToDo wp3;
   ]
 
+let set_name_tests =
+  [
+    make_set_name_test wp1 "A1";
+    make_set_name_test wp2 "B1";
+    make_set_name_test wp3 "C1";
+    make_set_name_test wp1 "A";
+    make_set_name_test wp2 "B";
+    make_set_name_test wp3 "C";
+  ]
+
+let set_coords_tests =
+  [
+    make_set_coords_test wp1 (1, 1);
+    make_set_coords_test wp2 (2, 2);
+    make_set_coords_test wp3 (-6, -6);
+    make_set_coords_test wp4 (11, 11);
+    make_set_coords_test wp5 (-4, -5);
+    make_set_coords_test wp6 (0, 6);
+  ]
+
 let set_status_tests =
   [
     make_set_status_test Pending wp1;
@@ -200,6 +234,17 @@ let contains_tests =
     make_contains_test false wp4 [| wp1; wp2; wp3 |];
     make_contains_test false wp5 [| wp1; wp2; wp3 |];
     make_contains_test false wp6 [| wp1; wp2; wp3 |];
+  ]
+
+let contains_name_tests =
+  [
+    make_contains_name_test true "A" [| wp1; wp2; wp3 |];
+    make_contains_name_test true "B" [| wp1; wp2; wp3 |];
+    make_contains_name_test false "D" [| wp1; wp2; wp3 |];
+    make_contains_name_test true "C" [| wp1; wp2; wp3 |];
+    make_contains_name_test false "E" [| wp1; wp2; wp3 |];
+    make_contains_name_test true "F" [| wp1; wp2; wp3; wp6 |];
+    make_contains_name_test false "G" [| wp1; wp2; wp3 |];
   ]
 
 let get_tests =
@@ -307,11 +352,14 @@ let suite =
          "Name Tests" >::: name_tests;
          "Coords Tests" >::: coords_tests;
          "Status Tests" >::: status_tests;
+         "Set Name Tests" >::: set_name_tests;
+         "Set Coords Tests" >::: set_coords_tests;
          "Set Status Tests" >::: set_status_tests;
          "Empty Test" >::: empty_test;
          "Is Empty Tests" >::: is_empty_tests;
          "Length Tests" >::: length_tests;
          "Contains Tests" >::: contains_tests;
+         "Contains Name Tests" >::: contains_name_tests;
          "Get Tests" >::: get_tests;
          "Get Index Tests" >::: get_index_tests;
          "Append Tests" >::: append_tests;

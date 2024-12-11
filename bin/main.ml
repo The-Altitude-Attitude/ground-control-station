@@ -305,6 +305,71 @@ let set_plane_icon_button =
   W.on_click button ~click:(fun _ -> set_plane_icon ());
   L.resident button
 
+let wp_entry = W.text_input ~prompt:"WP Name" ()
+let x_entry = W.text_input ~prompt:"x" ()
+let y_entry = W.text_input ~prompt:"y" ()
+let name_entry = W.text_input ~prompt:"New Name" ()
+
+let enter_button =
+  let button = W.button "Enter" in
+  W.on_click button ~click:(fun _ ->
+      if !simulation_running then
+        update_message "Can't change waypoint while running simulation!"
+      else
+        try
+          let wp_input = W.get_text wp_entry in
+          let x_input =
+            let x =
+              try int_of_string (W.get_text x_entry)
+              with _ -> failwith "x must be an integer."
+            in
+            if x < 0 || x > 1000 then
+              failwith "x must be an integer between 0 and 1000."
+            else x
+          in
+          let y_input =
+            let y =
+              try int_of_string (W.get_text y_entry)
+              with _ -> failwith "y must be an integer."
+            in
+            if y < 0 || y > 1000 then
+              failwith "y must be an integer between 0 and 1000."
+            else y
+          in
+          let name_input =
+            let name = W.get_text name_entry in
+            if name = "" then failwith "Name must not be empty."
+            else if name <> wp_input && contains_name name !waypoints then
+              failwith "Name must be unique."
+            else name
+          in
+
+          try
+            let wp_idx = ref None in
+            Array.iteri
+              (fun i wp -> if name wp = wp_input then wp_idx := Some i)
+              !waypoints;
+
+            match !wp_idx with
+            | Some idx ->
+                let wp = get idx !waypoints in
+                set_name wp name_input;
+                set_coords wp (x_input, y_input);
+
+                update_message
+                  (Printf.sprintf "Updated waypoint %s to (%d, %d) with name %s"
+                     wp_input x_input y_input name_input);
+
+                update_wp_table ();
+                update_map_layout ()
+            | None ->
+                update_message
+                  (Printf.sprintf "Waypoint with name %s not found!" wp_input)
+          with _ ->
+            update_message "Invalid input. Please check name and coordinates."
+        with Failure m -> update_message m);
+  L.resident button
+
 (** app setup *)
 let init_app () =
   update_map !map_file;
@@ -344,6 +409,15 @@ let init_app () =
           [ clear_path_button; start_simulation_button; set_plane_icon_button ];
         L.resident ~w:300 (W.label "Messages:");
         L.resident ~w:300 !message_label;
+        L.resident (W.label "Change Waypoint:");
+        L.flat
+          [
+            L.resident ~w:80 wp_entry;
+            L.resident ~w:30 x_entry;
+            L.resident ~w:30 y_entry;
+            L.resident ~w:80 name_entry;
+            enter_button;
+          ];
         wp_table_super;
       ]
   in
