@@ -174,12 +174,16 @@ let map_menu =
   let label = W.label "Select Map:" in
   L.flat ~margins:10 [ L.resident label; map_select ]
 
+let simulation_running = ref false
+
 let clear_path_button =
   let button = W.button "Clear Path" in
   W.on_click button ~click:(fun _ ->
-      reset_waypoints ();
-      update_wp_table ();
-      update_map_layout ());
+      if not !simulation_running then (
+        reset_waypoints ();
+        update_wp_table ();
+        update_map_layout ())
+      else update_message "Can't clear path while running simulation!");
   L.resident button
 
 let animate_plane_icon () =
@@ -188,6 +192,8 @@ let animate_plane_icon () =
     Printf.printf "No waypoints to animate through!\n";
     flush stdout)
   else (
+    simulation_running := true;
+
     reset_waypoint_statuses ();
     if not !plane_initialized then (
       plane_ref :=
@@ -269,17 +275,30 @@ let animate_plane_icon () =
         update_wp_status idx Done;
         update_wp_table ();
         update_message "Animation complete!";
+        update_map_layout ();
         Printf.printf "Animation complete!\n";
+        simulation_running := false;
         flush stdout)
     in
 
-    animate_path 0;
     Printf.printf "Animation started!\n";
-    flush stdout)
+    flush stdout;
+    animate_path 0)
 
 let start_simulation_button =
   let button = W.button "Start Simulation" in
   W.on_click button ~click:(fun _ -> animate_plane_icon ());
+  L.resident button
+
+let set_plane_icon () =
+  if !simulation_running then update_message "Simulation is still running!"
+  else plane_ref := plane_icon (150, 300);
+  update_message "Reset Plane Complete!";
+  update_map_layout ()
+
+let set_plane_icon_button =
+  let button = W.button "Reset Plane" in
+  W.on_click button ~click:(fun _ -> set_plane_icon ());
   L.resident button
 
 (** app setup *)
@@ -317,7 +336,8 @@ let init_app () =
       [
         map_menu;
         speed_slider;
-        L.flat [ clear_path_button; start_simulation_button ];
+        L.flat
+          [ clear_path_button; start_simulation_button; set_plane_icon_button ];
         L.resident ~w:300 (W.label "Messages:");
         L.resident ~w:300 !message_label;
         wp_table_super;
