@@ -1,5 +1,14 @@
-type status = ToDo | Pending | Done
-type waypoint = { name : string; coords : int * int; mutable status : status }
+type status =
+  | ToDo
+  | Pending
+  | Done
+
+type waypoint = {
+  name : string;
+  coords : int * int;
+  mutable status : status;
+}
+
 type path = waypoint array
 
 exception Empty

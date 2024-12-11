@@ -1,7 +1,16 @@
-type status = ToDo | Pending | Done
+(** The type of a waypoint's status. *)
+type status =
+  | ToDo
+  | Pending
+  | Done
 
-type waypoint = { name : string; coords : int * int; mutable status : status }
-(** The type of a waypoint whose name is type [string] and coords is type [int * int]. *)
+type waypoint = {
+  name : string;
+  coords : int * int;
+  mutable status : status;
+}
+(** The type of a waypoint whose name is type [string], coords is type
+    [int * int], and status is of type [status]. *)
 
 type path = waypoint array
 (** The type of a path whose elements are waypoints. *)
@@ -10,10 +19,12 @@ exception Empty
 (** Exception raised when attempting to access a waypoint of an empty path. *)
 
 exception NotFound
-(** Exception raised when attempting to access a non-existent waypoint in a path. *)
+(** Exception raised when attempting to access a non-existent waypoint in a
+    path. *)
 
 exception OutOfBounds
-(** Exception raised when attempting to access outside of the bounds of the path. *)
+(** Exception raised when attempting to access outside of the bounds of the
+    path. *)
 
 val create_wp : string -> int * int -> waypoint
 (** [create_wp name coords] is a waypoint with name [name] and coords [coords]. *)
@@ -25,7 +36,10 @@ val coords : waypoint -> int * int
 (** [coords wp] is the coordinates of waypoint [wp]. *)
 
 val status : waypoint -> status
+(** [status wp] is the status of waypoint [wp]. *)
+
 val set_status : waypoint -> status -> unit
+(** [set_status wp status] sets the status of waypoint [wp] to status [status]. *)
 
 val empty : path
 (** [empty] is an empty path. *)
@@ -43,7 +57,8 @@ val get : int -> path -> waypoint
 (** [get i p] is the waypoint at index [i] in path [p]. *)
 
 val get_index : waypoint -> path -> int
-(** [get_index wp p] is the index of the first occurrence of waypoint [wp] in path [p]. *)
+(** [get_index wp p] is the index of the first occurrence of waypoint [wp] in
+    path [p]. *)
 
 val append : waypoint -> path -> path
 (** [append wp p] is path [p] with waypoint [wp] appended to the end. *)
@@ -58,4 +73,5 @@ val path_to_list : path -> waypoint list
 (** [path_to_list p] is a list of waypoints. *)
 
 val distance : int * int -> int * int -> int
-(** [distance (x0, y0) (x1, y1)] is the distance between [(x0, y0)] and [(x1, y1)]. *)
+(** [distance (x0, y0) (x1, y1)] is the distance between [(x0, y0)] and
+    [(x1, y1)]. *)
