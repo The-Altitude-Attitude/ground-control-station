@@ -224,6 +224,8 @@ let get_index_tests =
     make_get_index_test 1 wp2 [| wp1; wp2; wp3; wp2 |];
     make_get_index_test 0 wp1 [| wp1; wp2; wp3; wp1 |];
     make_get_index_test 2 wp3 [| wp1; wp2; wp3; wp2; wp3 |];
+    ( "test_get_index_not_found" >:: fun _ ->
+      assert_raises NotFound (fun () -> get_index wp4 [| wp1; wp2; wp3 |]) );
   ]
 
 let append_tests =
@@ -254,6 +256,11 @@ let insert_tests =
     make_insert_test [| wp1; wp2; wp3 |] wp2 1 [| wp1; wp3 |];
     make_insert_test [| wp1; wp2; wp3 |] wp3 2 [| wp1; wp2 |];
     make_insert_test [| wp1; wp2; wp3; wp4 |] wp4 3 [| wp1; wp2; wp3 |];
+    ( "test_insert_out_of_bounds" >:: fun _ ->
+      assert_raises OutOfBounds (fun () -> insert wp4 4 [| wp1; wp2; wp3 |]) );
+    ( "test_insert_negative_index" >:: fun _ ->
+      assert_raises OutOfBounds (fun () -> insert wp4 (-1) [| wp1; wp2; wp3 |])
+    );
   ]
 
 let remove_tests =
@@ -262,6 +269,12 @@ let remove_tests =
     make_remove_test [| wp1; wp3 |] 1 [| wp1; wp2; wp3 |];
     make_remove_test [| wp1; wp2 |] 2 [| wp1; wp2; wp3 |];
     make_remove_test [||] 0 [| wp1 |];
+    ( "test_remove_empty" >:: fun _ ->
+      assert_raises Empty (fun () -> remove 0 empty) );
+    ( "test_remove_out_of_bounds" >:: fun _ ->
+      assert_raises OutOfBounds (fun () -> remove 5 [| wp1; wp2; wp3 |]) );
+    ( "test_remove_negative_index" >:: fun _ ->
+      assert_raises OutOfBounds (fun () -> remove (-1) [| wp1; wp2; wp3 |]) );
   ]
 
 let path_to_list_tests =

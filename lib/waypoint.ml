@@ -41,7 +41,7 @@ let append wp p =
 
 let insert wp i p =
   let p_len = Array.length p in
-  if i > p_len then raise OutOfBounds
+  if i > p_len || i < 0 then raise OutOfBounds
   else if i = 0 then Array.append [| wp |] p
   else if i = p_len then append wp p
   else
@@ -51,7 +51,7 @@ let insert wp i p =
 let remove i p =
   let p_len = Array.length p in
   if is_empty p then raise Empty
-  else if i > p_len - 1 then raise OutOfBounds
+  else if i > p_len - 1 || i < 0 then raise OutOfBounds
   else if i = 0 then Array.sub p 1 (p_len - 1)
   else if i = p_len - 1 then Array.sub p 0 (p_len - 1)
   else Array.append (Array.sub p 0 i) (Array.sub p (i + 1) (p_len - i - 1))
