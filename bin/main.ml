@@ -11,6 +11,8 @@ let map = ref (L.resident (W.image !map_file))
 let waypoints = ref empty
 let wp_table = ref (L.resident (W.label "No Waypoints"))
 let speed = ref 10
+let message_label = ref (W.label "No messages")
+let update_message new_message = W.set_text !message_label new_message
 
 (* horizontal scroll offset reference *)
 let offset_x = ref 0
@@ -43,6 +45,8 @@ let reset_waypoint_statuses () =
 let add_waypoint (x, y) =
   let wp = create_wp (Printf.sprintf "WP%d" (length !waypoints + 1)) (x, y) in
   waypoints := append wp !waypoints;
+  update_message
+    (Printf.sprintf "Added waypoint %d at (%d, %d)" (length !waypoints) x y);
   flush stdout
 
 let update_offset new_offset =
@@ -180,6 +184,7 @@ let clear_path_button =
 
 let animate_plane_icon () =
   if length !waypoints = 0 then (
+    update_message "No waypoints to animate through!";
     Printf.printf "No waypoints to animate through!\n";
     flush stdout)
   else (
@@ -208,6 +213,7 @@ let animate_plane_icon () =
 
         update_wp_status (idx + 1) Pending;
         update_wp_table ();
+        update_message (Printf.sprintf "Plane reached waypoint %d!" (idx + 1));
 
         (* Get the current and next waypoint coordinates *)
         let current_x, current_y = wp_coords.(idx) in
@@ -262,6 +268,7 @@ let animate_plane_icon () =
       else (
         update_wp_status idx Done;
         update_wp_table ();
+        update_message "Animation complete!";
         Printf.printf "Animation complete!\n";
         flush stdout)
     in
@@ -311,6 +318,8 @@ let init_app () =
         map_menu;
         speed_slider;
         L.flat [ clear_path_button; start_simulation_button ];
+        L.resident ~w:300 (W.label "Messages:");
+        L.resident ~w:300 !message_label;
         wp_table_super;
       ]
   in
