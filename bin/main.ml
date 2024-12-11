@@ -11,6 +11,7 @@ let map = ref (L.resident (W.image !map_file))
 let waypoints = ref empty
 let wp_table = ref (L.resident (W.label "No Waypoints"))
 let speed = ref 10
+let simulation_running = ref false
 let message_label = ref (W.label "No messages")
 let update_message new_message = W.set_text !message_label new_message
 
@@ -151,8 +152,10 @@ let speed_slider =
     W.slider_with_action ~value:!speed ~length:150 ~step:1
       ~kind:Slider.Horizontal
       ~action:(fun value ->
-        speed := 20 - (value - 1);
-        W.set_text slider_label (string_of_int (22 - !speed)))
+        if not !simulation_running then (
+          speed := 20 - (value - 1);
+          W.set_text slider_label (string_of_int (22 - !speed)))
+        else update_message "Can't change speed while running simulation!")
       19
   in
   L.tower
@@ -168,13 +171,13 @@ let speed_slider =
 let map_menu =
   let map_select =
     Select.create
-      ~action:(fun index -> update_map map_files.(index))
+      ~action:(fun index ->
+        if not !simulation_running then update_map map_files.(index)
+        else update_message "Can't change map while running simulation!")
       map_options 0
   in
   let label = W.label "Select Map:" in
   L.flat ~margins:10 [ L.resident label; map_select ]
-
-let simulation_running = ref false
 
 let clear_path_button =
   let button = W.button "Clear Path" in
@@ -274,14 +277,14 @@ let animate_plane_icon () =
       else (
         update_wp_status idx Done;
         update_wp_table ();
-        update_message "Animation complete!";
+        update_message "Simulation complete!";
         update_map_layout ();
-        Printf.printf "Animation complete!\n";
+        Printf.printf "Simulation complete!\n";
         simulation_running := false;
         flush stdout)
     in
 
-    Printf.printf "Animation started!\n";
+    Printf.printf "Simulation started!\n";
     flush stdout;
     animate_path 0)
 
@@ -292,9 +295,10 @@ let start_simulation_button =
 
 let set_plane_icon () =
   if !simulation_running then update_message "Simulation is still running!"
-  else plane_ref := plane_icon (150, 300);
-  update_message "Reset Plane Complete!";
-  update_map_layout ()
+  else (
+    plane_ref := plane_icon (150, 300);
+    update_message "Reset Plane Complete!";
+    update_map_layout ())
 
 let set_plane_icon_button =
   let button = W.button "Reset Plane" in
