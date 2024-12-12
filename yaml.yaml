@@ -1,29 +1,23 @@
 ---
 group:
-  - name: Rachel Bethke
-    netid: rkb76
-  - name: Cynthia Shao
-    netid: cys36
   - name: Meg Isohata
     netid: msi32
+  - name: Cynthia Shao
+    netid: cys36
+  - name: Rachel Bethke
+    netid: rkb76
 
 pm:
   name: Jerry Wang
   netid: yhw4
 
 publish: true
-# Pithy title
-title: "The OCaml GCS Flight Sim"
-# OK if this is a Cornell Github link, but public gallery viewers won't be able to see it.
-git-repo: "https://github.com/megisohata/cs3110-final-project"
 
-demo-video-url: "https://www.youtube.com/watch?v=5R1LrMLJQeI"
-# Write a short, attention-grabbing description of your project.
+title: "The OCaml GCS Flight Simulator"
+
+git-repo: "https://github.com/The-Altitude-Attitude/ground-control-station/tree/main"
+
+demo-video-url: "** Update URL **"
+
 desc: >
-  Explore the future of autonomous flight with a The OCaml Ground Control Station Flight Simulator 
-  (OGCS) built in OCaml! This platform brings mission planning, real-time telemetry, and physics-based 
-  simulation together in a seamless user experience. From precise waypoint plotting on an interactive map 
-  to a 2D visualization of flight path, users can simulate real-world scenarios and test mission 
-  strategies—all with the reliability and elegance of functional programming. 
-  Whether you are a researcher, developer, or autonomous flight enthusiast, this tool offers a unique 
-  look at cutting-edge aerial autonomy in a clean, immersive environment.
+  ** Update description **
