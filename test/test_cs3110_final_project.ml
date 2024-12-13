@@ -238,10 +238,10 @@ let contains_tests =
 
 let contains_name_tests =
   [
-    make_contains_name_test true "A" [| wp1; wp2; wp3 |];
+    make_contains_name_test true "A" [| wp1 |];
     make_contains_name_test true "B" [| wp1; wp2; wp3 |];
-    make_contains_name_test false "D" [| wp1; wp2; wp3 |];
     make_contains_name_test true "C" [| wp1; wp2; wp3 |];
+    make_contains_name_test false "D" [| wp1; wp2; wp3 |];
     make_contains_name_test false "E" [| wp1; wp2; wp3 |];
     make_contains_name_test true "F" [| wp1; wp2; wp3; wp6 |];
     make_contains_name_test false "G" [| wp1; wp2; wp3 |];

@@ -60,8 +60,8 @@ val contains : waypoint -> path -> bool
 (** [contains wp p] is whether or not waypoint [wp] is in path [p]. *)
 
 val contains_name : string -> path -> bool
-(** [contains_name name p] is whether or not a waypoint with name [name] is in
-    path [path]. *)
+(** [contains_name n p] is whether or not a waypoint with name [n] is in path
+    [p]. *)
 
 val get : int -> path -> waypoint
 (** [get i p] is the waypoint at index [i] in path [p]. *)
