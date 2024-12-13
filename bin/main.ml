@@ -10,8 +10,8 @@ let map_file = ref "data/cornell.png" (* default to cornell *)
 let map = ref (L.resident (W.image !map_file))
 let waypoints = ref empty
 let wp_table = ref (L.resident (W.label "No Waypoints"))
-let speed = ref 10
-let simulation_running = ref false
+let speed = ref 10 (* default speed *)
+let simulation_running = ref false (* default simulation not running*)
 let message_label = ref (W.label "No messages")
 let update_message new_message = W.set_text !message_label new_message
 
@@ -27,7 +27,7 @@ let create_icon file ~x ~y ~w ~h draggable =
   L.resident ~x ~y ~w ~h ~draggable (W.image file)
 
 let plane_icon (x, y) = create_icon "data/Plane_icon.svg" ~x ~y ~w:50 ~h:50 true
-let plane_initialized = ref false
+let plane_initialized = ref false (* if plane isn't in animation *)
 let plane_ref = ref (plane_icon (150, 300))
 
 let wp_icon (x, y) =
@@ -150,6 +150,9 @@ let update_map file =
   update_map_layout ()
 
 (* ui *)
+
+(* speed slider logic*)
+
 let speed_slider =
   let slider_label = W.label (string_of_int !speed) in
   let slider =
@@ -172,6 +175,8 @@ let speed_slider =
         ];
     ]
 
+(* map selection logic *)
+
 let map_menu =
   let map_select =
     Select.create
@@ -183,6 +188,8 @@ let map_menu =
   let label = W.label "Select Map:" in
   L.flat ~margins:10 [ L.resident label; map_select ]
 
+(* clear waypoint path logic *)
+
 let clear_path_button =
   let button = W.button "Clear Path" in
   W.on_click button ~click:(fun _ ->
@@ -193,6 +200,8 @@ let clear_path_button =
       else update_message "Can't clear path while running simulation!");
   L.resident button
 
+(* simulation logic *)
+
 let animate_plane_icon () =
   if length !waypoints = 0 then (
     update_message "No waypoints to animate through!";
@@ -202,6 +211,8 @@ let animate_plane_icon () =
     simulation_running := true;
 
     reset_waypoint_statuses ();
+
+    (* initialize plane *)
     if not !plane_initialized then (
       plane_ref :=
         plane_icon
@@ -211,12 +222,13 @@ let animate_plane_icon () =
 
     let wp_coords = Array.of_list (List.map coords (path_to_list !waypoints)) in
 
-    (* Offsets for plane icon centering *)
+    (* gets coordinates of plane icon for centering *)
     let plane_width = 50 in
     let plane_height = 50 in
     let half_w = plane_width / 2 in
     let half_h = plane_height / 2 in
 
+    (* animation logic, a recursive function based on the next waypoint *)
     let rec animate_path idx =
       if idx = 0 then (
         update_wp_status idx Done;
@@ -238,17 +250,18 @@ let animate_plane_icon () =
         let next_x_adj = next_x - half_w in
         let next_y_adj = next_y - half_h in
 
-        (* Compute angle to the next waypoint *)
+        (* compute angle to the next waypoint *)
         let dx = float_of_int (next_x - current_x) in
         let dy = float_of_int (next_y - current_y) in
         let angle_radians = atan2 dy dx in
         let angle_degrees = (angle_radians *. 180.0 /. Float.pi) +. 155.0 in
 
-        (* Rotate the plane slowly before moving to the next waypoint *)
+        (* rotate the plane slowly before moving to the next waypoint *)
         L.rotate ~duration:3 ~angle:angle_degrees !plane_ref;
 
-        (* Synchronization for animations finishing *)
+        (* synchronization for the x and y animations finishing *)
         let finished_count = ref 0 in
+        (* callback function necessary for bogue animations *)
         let on_end () =
           incr finished_count;
           if !finished_count = 1 then (
@@ -256,15 +269,15 @@ let animate_plane_icon () =
               next_x next_y;
             flush stdout;
 
-            (* Once reaching the next waypoint, mark it as Done *)
+            (* once reaching the next waypoint, mark it as Done *)
             update_wp_status (idx + 1) Done;
             update_wp_table ();
 
-            (* Animate toward the next waypoint *)
+            (* animate toward the next waypoint *)
             animate_path (idx + 1))
         in
 
-        (* Animate the plane movement *)
+        (* animate the plane movement *)
         let x_anim =
           Avar.fromto_unif
             ~duration:(distance (current_x, current_y) (next_x, next_y) * !speed)
@@ -287,7 +300,7 @@ let animate_plane_icon () =
         flush stdout;
         simulation_running := false)
     in
-
+    (* starting animation logic *)
     Printf.printf "Simulation started!\n";
     flush stdout;
     animate_path 0)
@@ -298,6 +311,8 @@ let start_simulation_button =
       animate_plane_icon ();
       plane_initialized := false);
   L.resident button
+
+(* reset plane button functions*)
 
 let set_plane_icon () =
   if !simulation_running then update_message "Simulation is still running!"
@@ -310,6 +325,8 @@ let set_plane_icon_button =
   let button = W.button "Reset Plane" in
   W.on_click button ~click:(fun _ -> set_plane_icon ());
   L.resident button
+
+(* change waypoint UI functionality *)
 
 let wp_entry = W.text_input ~prompt:"WP Name" ()
 let x_entry = W.text_input ~prompt:"x" ()
@@ -380,16 +397,14 @@ let enter_button =
 let init_app () =
   update_map !map_file;
 
-  let map_combined =
-    L.superpose [ !map; !plane_ref ]
-    (*plane_icon (150, 300)*)
-  in
+  let map_combined = L.superpose [ !map; !plane_ref ] in
   let map_layout = L.flat ~margins:0 [ map_combined ] in
   map_layout_ref := Some map_layout;
 
   let map_scroll = L.make_clip ~w:900 ~h:600 map_layout in
   map_scroll_ref := Some map_scroll;
 
+  (* let wp_table_super = L.superpose [ L.make_clip ~h:25 !wp_table ] in *)
   let wp_table_super = L.superpose [ !wp_table ] in
   wp_table_ref := Some wp_table_super;
 
@@ -435,7 +450,6 @@ let init_app () =
   let main_layout = L.flat ~sep:20 [ sidebar; map_with_slider ] in
   Bogue.of_layout main_layout
 
-(** entry point *)
 let () =
   let gcs = init_app () in
   Bogue.run gcs
