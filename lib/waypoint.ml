@@ -26,7 +26,7 @@ let empty = [||]
 let is_empty p = p = [||]
 let length p = Array.length p
 let contains wp p = Array.mem wp p
-let contains_name name p = Array.exists (fun wp -> wp.name = name) p
+let contains_name n p = Array.exists (fun wp -> name wp = n) p
 let get i p = Array.get p i
 
 let get_index wp p =
