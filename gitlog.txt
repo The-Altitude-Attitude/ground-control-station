@@ -1,109 +1,463 @@
-commit 2ecaaf3f1391c4910d85d851c13c565eeb6b175d
-Author: CynyuS <cys36@cornell.edu>
-Date:   Mon Oct 21 16:11:01 2024 -0400
-
-    Implement driver program
-    
-    - create function body for prompt
-    - created functions to turn csv into a priority queue
-
-commit 364fa257a4dfd8571a26bacaefcfce40e01688ef
-Author: CynyuS <cys36@cornell.edu>
-Date:   Mon Oct 21 13:48:59 2024 -0400
-
-    Implemented MakeTreePQ, specifications, and testing functors StringPQTester and PatientPQTester
-    
-    - Forgot to push test file
-    - Created a comprehensive test suite with 100% coverage on all libraries created, including MakeTreePQ
-
-commit d9e8d6f6ad4b9a7be263bac29094e0b552a5b0e1
-Author: CynyuS <cys36@cornell.edu>
-Date:   Mon Oct 21 13:48:01 2024 -0400
-
-    Implemented MakeTreePQ, specifications, and testing functors StringPQTester and PatientPQTester
-    
-    - Replaced all tests with functors StringPQTester and PatientPQTester
-    - Added abstraction function and representation invariant spec to MakeTreePQ
-    - Created a comprehensive test suite with  100% coverage on all libraries created, including MakeTreePQ
-
-commit c9dbc48c1325ba2cd94f1e9ca6a917cae0dfa01f
-Author: CynyuS <cys36@cornell.edu>
-Date:   Mon Oct 21 12:06:56 2024 -0400
-
-    Added representation invariant to functor
-
-commit c5bf8ee91f837fcaacf2725903c39d2654f42ec1
-Author: CynyuS <cys36@cornell.edu>
-Date:   Mon Oct 21 12:00:55 2024 -0400
-
-    Modify priority for full coverage
-
-commit bc501182a7193676ed044ba62c70d71bc7e956b2
-Author: CynyuS <cys36@cornell.edu>
-Date:   Mon Oct 21 11:47:42 2024 -0400
-
-    Implement priority based off of disease
-
-commit c4f3a05e813c7019b88da9eec521cda3d7385a85
-Author: CynyuS <cys36@cornell.edu>
-Date:   Mon Oct 21 10:33:11 2024 -0400
-
-    Implement create constructor, name, diagnosis translater, and patient test cases
-    
-    - Implement function body for create, name, and diagnosis
-    - Removed internal csv_to_list and added it externally to test file
-    - Created an enqueue function to add each element in the order of the csv
-    - Created test cases to ensure FIFO ordering
-
-commit 5b146dded1f85d35ea311e6ca523fa1b54551bc1
-Author: CynyuS <cys36@cornell.edu>
-Date:   Mon Oct 21 02:20:22 2024 -0400
-
-    Implement patient and started implementing tests
-    
-    - Half-finished a worksession
-    - Implemented function body for type, priority
-    - Implemented helpers csv_to_list, list_to_string
-    - resolving type error for tests
-
-commit a51f7588a06789d12e57084d3025a94ba0561c10
-Author: CynyuS <cys36@cornell.edu>
-Date:   Mon Oct 21 01:04:32 2024 -0400
-
-    Add raises exception Empty test case for front and dequeue
-
-commit 80ed13feccae6799fe0e2dc7a410b557b6f0d3fc
-Author: CynyuS <cys36@cornell.edu>
-Date:   Mon Oct 21 01:02:18 2024 -0400
-
-    Implement Functor MakeListPQ and test cases
-    
-    - Implemented function bodies for empty and is_empty
-    - Implemented tests for empty and is_empty by just is_empty
-    - Implemented function body for  enqueue
-    - Implemented none, one, and many element queues as test cases for enqueue
-    - implemented function body for to_list
-    - tested to_list implicitly through enqueue, front, and dequeue functions
-    - implemented function body for front
-    - implemented function body for dequeue
-    - tested front and dequeue for elements through to_list
-
-commit d8ecc01c078702aad1788bcb37d79476b8976bc4
-Author: CynyuS <cys36@cornell.edu>
-Date:   Sun Oct 20 21:19:23 2024 -0400
-
-    Delete build folder
-
-commit 0be12b53d91d472eeb86b98f70b56b71b7609747
-Author: CynyuS <cys36@cornell.edu>
-Date:   Sun Oct 20 21:16:21 2024 -0400
-
-    Added function stubs to all files, added a gitignore
-    
-    - I forgot in the initial commit to add a gitignore
-
-commit 44ef66966da7b6807c38ceff7dc522e3ce4cb1cd
+commit a6265352d5a7f2ae6e6eaee25e74c24f4d8efeb7
+Merge: bdd9ea7 e455b43
 Author: CynyuS <cynyu.shao@gmail.com>
-Date:   Sat Oct 19 13:43:13 2024 -0400
+Date:   Fri Dec 13 11:25:16 2024 -0500
 
-    first commit
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit bdd9ea7c536dd3990f20a680048c0dbecf2dd7ad
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Fri Dec 13 11:25:00 2024 -0500
+
+    final changes
+
+commit e455b435ee6b79ddeb4dafe7d9a1dafaaea12bcf
+Author: Meg <msi32@cornell.edu>
+Date:   Fri Dec 13 08:41:06 2024 -0500
+
+    Fix tests and move waypoint_gui
+
+commit 9b71d72953659338cfac1b49f84bb5a8b1666ec9
+Author: Meg <msi32@cornell.edu>
+Date:   Fri Dec 13 08:25:16 2024 -0500
+
+    Wrap description in yaml file
+
+commit 084d76648f23729d7f246a6029632e0f52b96d07
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Thu Dec 12 22:38:17 2024 -0500
+
+    Final bug fixes, documentation update, dune formatting update
+
+commit 8db427cfe0790ac4adbb1a004e6c37ec55fc1cdc
+Merge: 82df4f1 c49760c
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Thu Dec 12 19:03:34 2024 -0500
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 82df4f16a5d79649788b6e015003720f8ec1eb77
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Thu Dec 12 19:03:07 2024 -0500
+
+    Fixed bug
+    - Plane icon moves during simulation due to horizontal scrolling
+
+commit c49760c3e111697132f8712fe8c63ef4e2f40aa2
+Author: Meg Isohata <149263554+megisohata@users.noreply.github.com>
+Date:   Thu Dec 12 01:17:35 2024 -0500
+
+    Update README.md
+
+commit 31689f0170a2be5cec0bbc2d0c7b6da89230a42f
+Author: Meg <msi32@cornell.edu>
+Date:   Thu Dec 12 00:54:37 2024 -0500
+
+    Update documentation files
+
+commit 55764bf2041d03414055bc791547720e7cc588b3
+Author: Meg <msi32@cornell.edu>
+Date:   Wed Dec 11 17:42:05 2024 -0500
+
+    Implement functionality to change waypoint
+
+commit f4cddcc2c97bf41a4402d2401a4ef47ca83dad99
+Author: Meg <msi32@cornell.edu>
+Date:   Wed Dec 11 13:05:37 2024 -0500
+
+    Prevent path changes while running
+
+commit e4a418b63577b924a7b62f0e85d3eefcdec65618
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Tue Dec 10 22:17:23 2024 -0500
+
+    Implement reset plane button and fixed simulation bugs
+    - Fixed bug where while simulation was running and path was cleared the application would crash.
+    - Fixed bug where you could reset plane simultaneously and simulation would never complete.
+
+commit eb6f3b6e39ab380b9c115f56bde65f2f91138eee
+Author: Meg <msi32@cornell.edu>
+Date:   Tue Dec 10 20:46:13 2024 -0500
+
+    Add message label
+
+commit 340ad5c59dfa49b68afe96356916e8c31f066106
+Author: Meg <msi32@cornell.edu>
+Date:   Tue Dec 10 20:26:15 2024 -0500
+
+    Add test cases for errors and fix waypoint implementation
+
+commit def4915c3b4e85328ec1149cf4ed7432c7ab2e85
+Author: Meg <msi32@cornell.edu>
+Date:   Tue Dec 10 20:20:27 2024 -0500
+
+    Abstract test cases
+
+commit 14c39c9a5222a576d690390cc750eb9b2e5628fc
+Author: Meg <msi32@cornell.edu>
+Date:   Tue Dec 10 19:25:38 2024 -0500
+
+    Set format to standard used in class
+
+commit a71ef36ccc9a34525eff954e73f55b90e6a48b75
+Author: Meg <msi32@cornell.edu>
+Date:   Tue Dec 10 01:22:37 2024 -0500
+
+    Achieve test coverage
+
+commit ddad3e76bb2d0c5843cec2155485fcb9084f0098
+Author: Meg <msi32@cornell.edu>
+Date:   Tue Dec 10 00:41:54 2024 -0500
+
+    Add status column
+
+commit 6a62fce706cf8d8379738dd942aefdeb1826c668
+Author: Meg <msi32@cornell.edu>
+Date:   Mon Dec 9 23:15:27 2024 -0500
+
+    Add speed slider and calculation
+
+commit 8cef2c9e8d8c1a7b4f7e54fb5de248224b86118c
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Sat Dec 7 17:37:58 2024 -0500
+
+    Implemented rotation during simulation
+
+commit e7c593303139437679bf09e23c763e1fd94a4508
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Sat Dec 7 17:30:43 2024 -0500
+
+    Added test cases for path_to_list. Removed unecessary comments in main.
+
+commit 800a5334fef8180d1e5cd0c44111d6fc0d1aa4fb
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Sat Dec 7 17:08:08 2024 -0500
+
+    Implemented (not realisitic) multiple waypoint plane icon animation
+
+commit 804087e5ee38887e5de617eaa178529617b844ff
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Sat Dec 7 16:23:18 2024 -0500
+
+    Implement rudimentary plane animation
+    - Implemented a path_to_list function in the Waypoint module
+    - Implement animate_plane_icon
+    - Created a start simualtion button
+
+commit d1b68860bf5920536e15a95bef11a10829b0e702
+Author: Meg <msi32@cornell.edu>
+Date:   Wed Dec 4 19:47:38 2024 -0500
+
+    Make plane draggable again
+
+commit 988e895074520fae5ed7c0ccd6f235165be9d568
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Wed Dec 4 15:40:27 2024 -0500
+
+    Implement horizontal scrolling
+    - added an offset reference for the x position
+    - implemented updates to update_map_layout
+    - implemented function update_offset and apply_offset
+    - created new scroll bar widget
+
+commit c8a9d6515072909d982cb1703af15136c54057b5
+Merge: 63c9b16 2ce9336
+Author: Meg Isohata <149263554+megisohata@users.noreply.github.com>
+Date:   Mon Dec 2 13:51:52 2024 -0500
+
+    Merge pull request #3 from The-Altitude-Attitude/code-cleanup
+    
+    Code cleanup
+
+commit 2ce93365134000fc3b2a4c7ac4c757b836906aaf
+Author: Meg <msi32@cornell.edu>
+Date:   Fri Nov 29 11:21:38 2024 -0500
+
+    Use waypoint CU functions
+
+commit 0f993dcfb72801d228ba8b1f52a7b4b98ebfa3dc
+Author: Meg <msi32@cornell.edu>
+Date:   Fri Nov 29 11:13:11 2024 -0500
+
+    cleanup code
+
+commit 63c9b16f21bc11004f2aa6e0b5c956f5fe4b3c5a
+Author: Meg <msi32@cornell.edu>
+Date:   Thu Nov 28 21:56:19 2024 -0500
+
+    Add waypoint table and clear path button
+
+commit 009ee2fb4395a8e6c34ba2017f461e7293e20687
+Author: Meg <msi32@cornell.edu>
+Date:   Thu Nov 28 20:05:42 2024 -0500
+
+    Make map selection drop-down
+
+commit 311117173d3dad43e05925068129fa93fdbcff42
+Merge: cda649f aa12654
+Author: Meg Isohata <149263554+megisohata@users.noreply.github.com>
+Date:   Thu Nov 28 18:21:54 2024 -0500
+
+    Merge pull request #2 from The-Altitude-Attitude/update-background
+    
+    Change map image according to selection
+
+commit aa1265440a25a249f841ec1e18e1cc6e9ba422c3
+Author: Meg <msi32@cornell.edu>
+Date:   Thu Nov 28 18:21:17 2024 -0500
+
+    Change map image according to selection
+
+commit cda649f982c22a4d668480e38f001e182a23178a
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Wed Oct 30 16:21:40 2024 -0400
+
+    Updated in YAML the MS2 Demo Youtube Video
+
+commit cb4b21b070f1b6fc38ef8026c91947283cb7da5c
+Author: Meg <msi32@cornell.edu>
+Date:   Wed Oct 30 13:56:42 2024 -0400
+
+    Add data directory
+    
+    - Moved images used to data folder
+
+commit 317ae5c9181f67793670bb2778f6181d6682b246
+Merge: c8f6b7a 3ad8b51
+Author: Meg <msi32@cornell.edu>
+Date:   Wed Oct 30 13:45:44 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit c8f6b7a172b0061d5f5dfa0e2c18ee939e3adcde
+Author: Meg <msi32@cornell.edu>
+Date:   Wed Oct 30 13:41:46 2024 -0400
+
+    Update README and add AUTHORS
+    
+    - Update README with instructions to start the GCS
+    - Add authors with names of authors
+
+commit 3ad8b51fddd926148a88c20cd8e38f9a3782874b
+Merge: c25e27f 73a9865
+Author: cynyu <59539885+CynyuS@users.noreply.github.com>
+Date:   Tue Oct 29 16:27:55 2024 -0400
+
+    Merge pull request #1 from megisohata/scroll-map-wp
+    
+    Final changes made to MS2.
+    
+    - Improved map sizing and scrolling behavior
+    - Update GUI layout
+    - Updated YAML file
+
+commit 73a9865761d37696b8ad1199d44d662b319856b6
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Tue Oct 29 16:26:23 2024 -0400
+
+    Updated yaml file
+    
+    - Added short, attention catching description
+    - Added team members names
+
+commit 89947d1570903348b47ccbc8740591d307c73c35
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Tue Oct 29 16:16:07 2024 -0400
+
+    Improve map sizing on windows
+    
+    - Resolution between different devices leads to worse scaling
+    - Removed concrete sizing for map creation, opting for Bogue default sizing
+
+commit a544be4615a328415abcc8ca77403c9d6858d4a3
+Author: RachelBethke <rkb76@cornell.edu>
+Date:   Tue Oct 29 12:30:04 2024 -0400
+
+    Improve map sizing and scroll behavior.
+    
+    - Added explicit width (1000) and height (600) to map image and resident layout
+    - Added map_layout_ref to maintain layout updates for waypoints
+    - Restructured layout management to maintain scroll position when adding waypoints
+    - Removed redundant scroll creation in wp_update_map
+    - Added YAML file
+
+commit c25e27f10f672dc926102b7180fa49a0a113f4cf
+Merge: a5607dd 92436a8
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Tue Oct 29 10:45:40 2024 -0400
+
+    Merge test cases and gui changes to branch 'main' of https://github.com/megisohata/cs3110-final-project
+
+commit a5607dd33fa4591b345265e0aa197864a07e5f86
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Tue Oct 29 10:44:57 2024 -0400
+
+    Fixed bug for scroll and waypoint
+    
+    - Fixed issue where after adding a waypoint the scroll bar would disappear
+
+commit 92436a87f6c62210bae7ce3bae24afd2bacfda0a
+Author: Meg <msi32@cornell.edu>
+Date:   Mon Oct 28 23:51:00 2024 -0400
+
+    Add test cases for all functions in waypoint
+
+commit 97d9f2d929c2e432c5bb42dc43f9fa2b54ecf99f
+Author: Meg <msi32@cornell.edu>
+Date:   Mon Oct 28 22:26:43 2024 -0400
+
+    Add map dropdown menu
+
+commit 18df740fc9e34a6c23316cfeaf408b7fc928e841
+Author: RachelBethke <rkb76@cornell.edu>
+Date:   Mon Oct 28 16:34:57 2024 -0400
+
+    Improve waypoint dot appearance to be smaller and have centered clicking location.
+    
+    - Centered dot on click position rather than clicking to the upper left corner
+    - Reduced waypoint dot size to 10px
+
+commit 00d0c1f742dfa964bd6d4dc376d9f7541719483b
+Author: RachelBethke <rkb76@cornell.edu>
+Date:   Mon Oct 28 16:04:40 2024 -0400
+
+    Add waypoint dot file to directory
+
+commit e4b6d7d3071809297b410dba30b9d30a52e3fde2
+Author: RachelBethke <rkb76@cornell.edu>
+Date:   Mon Oct 28 15:45:24 2024 -0400
+
+    Update main to use Waypoint_gui module.
+    
+    - Integrated waypoint functionality in to main
+    - Added waypoint creation and tracking system
+    - Added a map click handler
+    - Added a map update system to update with newly displayed waypoints
+
+commit 0d7351ffef892f2413b7b77b42b6cfc1c070b09c
+Author: RachelBethke <rkb76@cornell.edu>
+Date:   Mon Oct 28 15:40:41 2024 -0400
+
+    Add Waypoint_gui module for map visualization.
+    
+    - Created new Waypoint_gui module for handling map interactions
+    - Implemented basic waypoint display and positioning logic to be built off of for more complex interactions
+    - Wrote matching interface file
+    - Updated dune file to work with these changes
+
+commit 489e94fb782514976512e34970a24a5086f800d3
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Sun Oct 27 22:37:04 2024 -0400
+
+    Implement plane icon in GUI.
+    
+    - Plane icon can be set using coordinates
+    - Plane icon moves with map when scrolling
+    - Plane icon currently hardcoded to stewart park
+
+commit e4bfd8ee2e88fb966998f775b719a2952060a163
+Merge: 895b0c3 c8d5450
+Author: Meg <msi32@cornell.edu>
+Date:   Sun Oct 27 15:09:16 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 895b0c368d57c60f65ccefc4df52331a16ad29d2
+Author: Meg <msi32@cornell.edu>
+Date:   Sun Oct 27 15:04:48 2024 -0400
+
+    Implement waypoint comilation unit
+    
+    - Wrote specifications in interface
+    - Wrote functions in implementation
+    - Added additional functions
+
+commit c8d5450c9b10f6f38f97ce7ee73dfc7c8bd96367
+Author: RachelBethke <rkb76@cornell.edu>
+Date:   Sun Oct 27 14:37:23 2024 -0400
+
+    Small Change: Fixed function names from creat_wp to create_wp
+
+commit 30bd255ddb445e2c18c9bcf50f93bb6b966de950
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Sun Oct 27 13:02:42 2024 -0400
+
+    Implement noscale for image.
+
+commit e67174b17d40dcb26063a943a17927f3bd6077bb
+Author: RachelBethke <rkb76@cornell.edu>
+Date:   Sun Oct 27 09:43:19 2024 -0400
+
+    Add basic waypoint functionality tests and fix minor issues with dune files and names.
+    - Fix typo in create_wp function name
+    - Add unit tests for all waypoint current operations:
+        - Waypoint creation and field access
+        - Empty path operations
+        - Append operations
+        - Remove operations including edge cases
+    - Edit test/dune file to work properly
+
+commit 58fdab832086bfd8fd9669c524904b33389b7bf7
+Author: Meg <msi32@cornell.edu>
+Date:   Sat Oct 26 22:59:00 2024 -0400
+
+    Implement waypoint compilation unit
+    
+    - Wrote interface for waypoints
+    - Implemented functions for waypoints
+
+commit 325dbb4491db62b6f6a393c04d6f5e862335b754
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Sat Oct 26 21:33:28 2024 -0400
+
+    Implement map as layout instead of widget
+    
+    - Displays window in better screen-ratio
+
+commit 854086563fcbfa6f5c0e43e1b97eac417ed28a1a
+Author: Meg <msi32@cornell.edu>
+Date:   Fri Oct 25 11:47:23 2024 -0400
+
+    Made overall layout for GCS
+    
+    - Added menu section
+    - Added map
+
+commit b6c88b3a79fb7db12656c6e0d730ec41c307231b
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Thu Oct 24 22:02:02 2024 -0400
+
+    Implement GUI Hello World!
+    
+    - Installed bouge
+    - Tested hello world!
+
+commit 2f13832177bcfc1cb018d0e2b3aafbe394bd3d1b
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Thu Oct 24 21:28:51 2024 -0400
+
+    Initialized project
+
+commit 60961145221a1cc97ddf14898bb981a1eca90868
+Author: Rachel <145229535+RachelBethke@users.noreply.github.com>
+Date:   Thu Oct 10 23:33:18 2024 -0400
+
+    Update README.md
+
+commit a3af7a6654ebec763706b1de9154700f5e8ffd98
+Author: CynyuS <cynyu.shao@gmail.com>
+Date:   Thu Oct 10 18:08:56 2024 -0400
+
+    Cynthia's initial commit
+
+commit d043b25d28f01a9864b0720bd1877c8b368dccfc
+Author: Meg <msi32@cornell.edu>
+Date:   Thu Oct 10 13:45:24 2024 -0400
+
+    Meg's initial commit
+
+commit 5998cb136dcba0cf2ecd9a35aa05c4d22dff7287
+Author: megisohata <149263554+megisohata@users.noreply.github.com>
+Date:   Thu Oct 10 13:39:19 2024 -0400
+
+    Initial commit
