@@ -65,7 +65,11 @@ let update_map_layout () =
   in
 
   let plane_icon_dynamic =
-    if !plane_initialized then !plane_ref else plane_icon (150 + !offset_x, 300)
+    if !plane_initialized then !plane_ref
+    else
+      let xpos = L.getx !plane_ref in
+      let ypos = L.gety !plane_ref in
+      plane_icon (xpos + !offset_x, ypos)
   in
 
   let combined_layout =
@@ -240,14 +244,14 @@ let animate_plane_icon () =
         let angle_radians = atan2 dy dx in
         let angle_degrees = (angle_radians *. 180.0 /. Float.pi) +. 155.0 in
 
-        (* Rotate the plane instantly to face the next waypoint *)
+        (* Rotate the plane slowly before moving to the next waypoint *)
         L.rotate ~duration:3 ~angle:angle_degrees !plane_ref;
 
         (* Synchronization for animations finishing *)
         let finished_count = ref 0 in
         let on_end () =
           incr finished_count;
-          if !finished_count = 2 then (
+          if !finished_count = 1 then (
             Printf.printf "Plane reached waypoint %d at (%d, %d)!\n" (idx + 1)
               next_x next_y;
             flush stdout;
@@ -280,8 +284,8 @@ let animate_plane_icon () =
         update_message "Simulation complete!";
         update_map_layout ();
         Printf.printf "Simulation complete!\n";
-        simulation_running := false;
-        flush stdout)
+        flush stdout;
+        simulation_running := false)
     in
 
     Printf.printf "Simulation started!\n";
@@ -290,13 +294,15 @@ let animate_plane_icon () =
 
 let start_simulation_button =
   let button = W.button "Start Simulation" in
-  W.on_click button ~click:(fun _ -> animate_plane_icon ());
+  W.on_click button ~click:(fun _ ->
+      animate_plane_icon ();
+      plane_initialized := false);
   L.resident button
 
 let set_plane_icon () =
   if !simulation_running then update_message "Simulation is still running!"
   else (
-    plane_ref := plane_icon (150, 300);
+    plane_ref := plane_icon (150 + !offset_x, 300);
     update_message "Reset Plane Complete!";
     update_map_layout ())
 
@@ -374,7 +380,10 @@ let enter_button =
 let init_app () =
   update_map !map_file;
 
-  let map_combined = L.superpose [ !map; plane_icon (150, 300) ] in
+  let map_combined =
+    L.superpose [ !map; !plane_ref ]
+    (*plane_icon (150, 300)*)
+  in
   let map_layout = L.flat ~margins:0 [ map_combined ] in
   map_layout_ref := Some map_layout;
 
@@ -391,8 +400,10 @@ let init_app () =
     W.slider_with_action ~value:0 ~length:900 ~thickness:20 ~step:1
       ~kind:Slider.Horizontal
       ~action:(fun value ->
-        offset_x := -value;
-        apply_offset ())
+        if not !simulation_running then (
+          offset_x := -value;
+          apply_offset ())
+        else update_message "Can't change map while running simulation!")
       slider_max
   in
 
