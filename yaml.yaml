@@ -17,7 +17,7 @@ title: "The OCaml GCS Flight Simulator"
 
 git-repo: "https://github.com/The-Altitude-Attitude/ground-control-station/tree/main"
 
-demo-video-url: "** Update URL **"
+demo-video-url: "https://www.youtube.com/watch?v=pwyNBIwGpJg"
 
 desc: >
   The OCaml GCS Flight Simulator - OCamlGCS for short - is a application that can plot waypoints and simulate flight paths for your local Cornell needs! Based on the needs of Cornell University Unmanned Air Systems, the OCamlGCS has three built in maps: Cornell, Ovid Airport, and Mojave Desert for you to simulate all your flight needs. You can plot, change, and delete waypoints, and adjust the speed of the animation to the intended speed of your aircraft!
